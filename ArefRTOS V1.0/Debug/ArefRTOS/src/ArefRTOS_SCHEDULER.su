@@ -1,0 +1,4 @@
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:112:25:ArefRTOS_staticMainStack	16	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:128:13:ArefRTOS_staticIdleTask	4	static,ignoring_inline_asm
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:216:18:ArefRTOS_voidCreateTask	32	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:255:18:ArefRTOS_voidInit	16	static

@@ -1,0 +1,7 @@
+../ArefRTOS/src/ArefRTOS_PORTING.c:44:6:ArefRTOS_voidCallService	16	static,ignoring_inline_asm
+../ArefRTOS/src/ArefRTOS_PORTING.c:64:6:ArefRTOS_voidHardwareInit	4	static
+../ArefRTOS/src/ArefRTOS_PORTING.c:82:24:HardFault_Handler	4	static
+../ArefRTOS/src/ArefRTOS_PORTING.c:87:24:MemManage_Handler	4	static
+../ArefRTOS/src/ArefRTOS_PORTING.c:92:24:BusFault_Handler	4	static
+../ArefRTOS/src/ArefRTOS_PORTING.c:97:28:UsageFault_Handler	4	static
+../ArefRTOS/src/ArefRTOS_PORTING.c:108:18:SVC_Handler	0	static,ignoring_inline_asm
