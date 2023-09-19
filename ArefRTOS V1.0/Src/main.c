@@ -45,19 +45,19 @@ int main(void)
 	if(ArefRTOS_voidInit()!= NoError)
 		while(1);
 	//03. Configure the Tasks
-	Task1.taskID = 1;
-	Task1.taskPriority = 1;
-	Task1.taskStackSize = 1024;
+	Task1.TaskID = 1;
+	Task1.TaskPriority = 1;
+	Task1.TaskStackSize = 1024;
 	Task1.pTaskFcn = task1;
 
-	Task2.taskID = 2;
-	Task2.taskPriority = 2;
-	Task2.taskStackSize = 1024;
+	Task2.TaskID = 2;
+	Task2.TaskPriority = 2;
+	Task2.TaskStackSize = 1024;
 	Task2.pTaskFcn = task2;
 
-	Task3.taskID = 3;
-	Task3.taskPriority = 3;
-	Task3.taskStackSize = 1024;
+	Task3.TaskID = 3;
+	Task3.TaskPriority = 3;
+	Task3.TaskStackSize = 1024;
 	Task3.pTaskFcn = task3;
 
 	//04. Create the Tasks

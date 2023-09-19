@@ -12,7 +12,6 @@
 *					  INCLUDES		                       *
 *														   *
 ************************************************************/
-#include"ArefRTOS_PORTING.h"
 #include"ArefRTOS_SCHEDULER.h"
 
 

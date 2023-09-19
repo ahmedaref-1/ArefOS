@@ -16,26 +16,26 @@
  *                      CORTEX_M3
  *                      CORTEX_M4
  */
-#define __CPU__     CORTEX_M3
+#define __CPU__     			CORTEX_M3
 
 /* @brief Write down maximum number of tasks */
-#define MAX_NUM_OF_TASKS	10
+#define MAX_NUM_OF_TASKS		10
 
 /* @brief This Macro is used to define the tick time in microsecond */
-#define TICK_TIME 4000
+#define TICK_TIME 				4000
 
 /* @brief This Macro is used to define the SIZE of main stack area
  * @details This area is used by Kernel, Interrupts, and Exceptions */
-#define MainStackSize   	0x800
+#define MAINSTACKSIZE   	 	0x800
 
 /* @brief This Macro is used to define the handler name of pendSV */
-#define PEND_SV_HANDLER_NAME    PendSV_Handler
+#define PEND_SV_HANDLER_NAME  	PendSV_Handler
 
 /* @brief This Macro is used to define symbol of end of stack */
-#define END_OF_STACK_SYMBOL	_estack
+#define END_OF_STACK_SYMBOL		_estack
 
 /* @brief This Macro is used to define symbol of end of heap */
-#define END_OF_HEAP_SYMBOL	_eheap
+#define END_OF_HEAP_SYMBOL		_eheap
 
 
 /***********************************************************
