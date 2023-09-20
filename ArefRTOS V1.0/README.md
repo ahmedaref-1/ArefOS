@@ -19,7 +19,7 @@
   04. Aligns the hardware stack locator 4 bytes to ensure that it is aligned properly.  
   05. Initializes the task stack area.  
   06. Checks the current number of tasks against the maximum number of tasks defined by the user.  
-  07.1. If the current number of tasks is less than the maximum number of tasks, then the function updates the scheduler table and sets the task state to suspended.  
-  07.2. If the current number of tasks is equal to the maximum number of tasks, then the function returns an error code indicating that the maximum number of tasks 
+  vii.i. If the current number of tasks is less than the maximum number of tasks, then the function updates the scheduler table and sets the task state to suspended. 
+  vii.ii.If the current number of tasks is equal to the maximum number of tasks, then the function returns an error code indicating that the maximum number of tasks 
         has been exceeded.  
   08. The ArefRTOS_voidCreateTask function returns an error code if any of the steps fail.  
