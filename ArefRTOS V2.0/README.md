@@ -26,6 +26,7 @@ The `ArefRTOS SVC Handler` function is responsible for handling specific SVC cal
 
 5. **Default Case**: Handles unknown SVC calls by taking no action.
 
+
 ### 02. ArefRTOS First Stage Scheduler
 
 This function, `ArefRTOS_voidFirstStageScheduler()`, is a crucial part of the task scheduling process in the ArefRTOS real-time operating system (RTOS). It ensures that tasks are placed in the ready queue in the correct order based on their priorities, enabling efficient task execution in the RTOS,The first stage scheduler performs the following steps:
