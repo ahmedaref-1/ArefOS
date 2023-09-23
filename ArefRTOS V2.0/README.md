@@ -27,6 +27,33 @@ The `ArefRTOS SVC Handler` function is responsible for handling specific SVC cal
 5. **Default Case**: Handles unknown SVC calls by taking no action.
 
 
+### 02. ArefRTOS First Stage Scheduler
+
+This function, `ArefRTOS_voidFirstStageScheduler()`, is a crucial part of the task scheduling process in the ArefRTOS real-time operating system (RTOS). It ensures that tasks are placed in the ready queue in the correct order based on their priorities, enabling efficient task execution in the RTOS.
+
+## Overview
+
+The first stage scheduler performs the following steps:
+
+1. **Create Local Variables**: Initializes temporary local variables for task management.
+
+2. **Sort Tasks**: Calls `ArefRTOS_voidBubbleSort()` to sort tasks in the task table based on priority.
+
+3. **Select Current and Next Task**:
+
+   - 3.1. **Free Ready Queue**: Clears the ready queue by repeatedly dequeuing tasks until it's empty.
+
+   - 3.2. **Update Ready Queue**: Updates the ready queue based on task priorities:
+
+     - 3.2.1. **Check Priority Options**:
+
+       - 3.2.1.1. **End of Task Table**: If at the end of the task table, enqueues the current task, sets its state to ready, and exits.
+
+       - 3.2.1.2. **Lower Priority Task**: If the current task has a lower priority than the next task, enqueues the current task, sets its state to ready, and exits.
+
+       - 3.2.1.3. **Same Priority Tasks (Round-Robin)**: If the current task has the same priority as the next task, enqueues the current task for round-robin scheduling and continues without breaking.
+
+       - 3.2.1.4. **Higher Priority Task**: If the current task has a higher priority than the next task, this is not allowed, and the loop exits.
 
 
 
