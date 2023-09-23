@@ -47,3 +47,28 @@ This function, `ArefRTOS_voidFirstStageScheduler()`, is a crucial part of the ta
        - 3.2.1.3. **Same Priority Tasks (Round-Robin)**: If the current task has the same priority as the next task, enqueues the current task for round-robin scheduling and continues without breaking.
        - 3.2.1.4. **Higher Priority Task**: If the current task has a higher priority than the next task, this is not allowed, and the loop exits.
 
+### 03. ArefRTOS Second Stage Dispatcher
+
+The `ArefRTOS_voidSecondStageDispatcher` function plays a crucial role in the task scheduling process within the ArefRTOS real-time operating system (RTOS). It manages the selection of the current and next tasks to be executed, ensuring smooth task execution and handling scenarios when there are no ready tasks.
+
+#### Function Explanation
+
+1. **Create Local Variables**: The function initializes temporary local variables to facilitate task management.
+   
+3. **Select Current and Next Task**:
+   - 3.1. **Empty Queue and Non-Suspended Current Task**:
+     - If the ready task queue is empty and the current task is not suspended:
+       - The current task is set to a running state.
+       - The current task is added back to the end of the ready task queue.
+       - The next task is set to be the same as the current task.
+
+   - 3.2. **Ready Queue is Not Empty**:
+     - If the ready task queue is not empty:
+       - The first task in the FIFO, `LOC_currentTask`, is dequeued and assigned.
+       - The next task is set to `LOC_currentTask`.
+       - `LOC_currentTask` is marked as running.
+       - If the current task and the next task have the same priority, and the current task is not suspended, round-robin scheduling is applied:
+         - The current task is added back to the end of the ready task queue.
+         - The current task is marked as ready.
+
+This function is pivotal in the proper execution of tasks within the ArefRTOS RTOS, ensuring tasks are scheduled and executed based on their priority and handling scenarios when no ready tasks are available.
