@@ -6,45 +6,29 @@ Welcome to ArefRTOS, a real-time operating system (RTOS) meticulously crafted fr
 
 ## Features Included by the Scheduler 🚀
 
-### 01. ArefRTOS Void Init
+### 01. ArefRTOS SVC Handler
 
-The `ArefRTOS_voidInit` function is responsible for initializing the ArefRTOS operating system. It performs the following crucial steps:
+The `ArefRTOS SVC Handler` function is responsible for handling specific SVC calls related to task activation and termination in a real-time operating system. It involves a two-stage scheduling and dispatching process and potentially triggers a context switch using the PendSV exception.
 
-1. **Hardware Initialization**: This step involves configuring essential hardware settings such as clock speeds, memory management, and peripheral setups.
 
-2. **Suspend State**: ArefRTOS begins in a suspended state, ensuring that tasks won't start executing until explicitly resumed.
+1. **Extracting SVC Parameter**: The function begins by extracting a single byte (`SVCParameter`) from the stack frame. This byte is obtained by casting a pointer to `svc_args[6]` (which points to the R1 register) as a `uint8_t*` and then subtracting 2 from it.
 
-3. **Main Stack Setup**: The OS reserves a specific memory area for the main stack, which is utilized to manage the call stack for the main task.
+2. **Switch Statement**: It enters a `switch` statement based on the value of `SVCParameter`.
 
-4. **Task Queue Initialization**: ArefRTOS initializes the task queue, which is vital for managing tasks that are ready to execute.
+3. **Case: ArefRTOS_SVC_CALL_ACTIVATE_TASK**:
+    - 3.1. Calls `ArefRTOS_voidFirstStageScheduler()` to decide which task to execute next based on priority.
+    - 3.2. Checks if the OS is in the running state. If it is, it proceeds with additional steps.
+    - 3.3. Calls `ArefRTOS_voidSecondStageDispatcher()` to switch the CPU from one process to another, saving and restoring the state of each process.
+    - 3.4. Triggers a PendSV (Pendable Supervisor Call) exception, which is often used in context switching routines in RTOS implementations.
 
-5. **Idle Task Initialization**: An idle task is a specialized task that runs when there are no other tasks ready to execute.
+4. **Case: ArefRTOS_SVC_CALL_TERMINATE_TASK**:
+    - 4.1. Performs the same steps as in the `ArefRTOS_SVC_CALL_ACTIVATE_TASK` case.
 
-6. **Error Handling**: The `ArefRTOS_voidInit` function is designed to return an error code in case any of the initialization steps encounter issues.
+5. **Default Case**: Handles unknown SVC calls by taking no action.
 
-### 02. ArefRTOS Void Create Task
 
-The `ArefRTOS_voidCreateTask` function is responsible for creating new tasks within the ArefRTOS operating system. This process involves several critical steps:
 
-1. **Task Stack Configuration**: It sets the task stack's starting point using the hardware stack locator present in the OS control structure.
 
-2. **Task Stack Sizing**: The function calculates the end of the task stack by subtracting the task stack size and the minimum stack size required for the task control block from the starting point.
-
-3. **Stack Overflow Check**: ArefRTOS checks for stack overflow to ensure the task stack remains within allocated bounds.
-
-4. **Stack Alignment**: The hardware stack locator is aligned to 4 bytes to ensure proper alignment.
-
-5. **Task Stack Initialization**: The task stack area is initialized, preparing it for task execution.
-
-6. **Task Count Verification**: ArefRTOS checks the current number of tasks against the user-defined maximum number of tasks.
-
-7. **Task State Management**: If the current number of tasks is less than the maximum limit, the function updates the scheduler table and sets the task state to suspended.
-
-8. **Error Handling**: In case the current number of tasks reaches the maximum limit, the function returns an error code, indicating that the maximum number of tasks has been exceeded.
-
-9. **Error Reporting**: The `ArefRTOS_voidCreateTask` function is designed to return an error code if any of the task creation steps encounter issues.
-
-These functions and features form the foundation of ArefRTOS, empowering you to build real-time applications with precision and control.
 
 
 
