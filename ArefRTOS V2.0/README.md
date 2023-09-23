@@ -71,4 +71,37 @@ The `ArefRTOS_voidSecondStageDispatcher` function plays a crucial role in the ta
          - The current task is added back to the end of the ready task queue.
          - The current task is marked as ready.
 
-This function is pivotal in the proper execution of tasks within the ArefRTOS RTOS, ensuring tasks are scheduled and executed based on their priority and handling scenarios when no ready tasks are available.
+
+### 04. PendSV Handler for Context Switching
+
+The `PendSV_Handler` function is responsible for handling context switches between tasks in the ArefRTOS real-time operating system (RTOS). This function ensures that tasks are executed smoothly and efficiently, maintaining their states during the switch.
+
+#### Function Explanation
+
+1. **Enter Critical Section**:
+   - Disable interrupts (`CPSID i`) to ensure that the context switch is atomic and not interrupted by other tasks or interrupts.
+
+2. **Save Current Context of the Current Task**:
+   - Save xPSR, PC, LR, R12, R3, R2, R1, R0 into the current task's Process Stack Pointer (PSP).
+
+3. **Save Rest of Registers of Current Task**:
+   - Manually push the values of R4 to R11 onto the current task's PSP.
+   - Decrease the PSP by one for each register.
+
+4. **Switch Control to the Next Task's Process Stack**:
+   - If there is a next task (`OS_nextTask` is not NULL), update `OS_currentTask` to point to the next task and reset `OS_nextTask`.
+
+5. **Restore the Rest of Registers from the New Task's Process Stack**:
+   - Manually pop the values of R4 to R11 from the new task's PSP.
+   - Increase the PSP by one for each register.
+
+6. **Update CPU PSP to Point to New Task's PSP**:
+   - Set the CPU's PSP to point to the new task's PSP, making it the active stack for the CPU.
+
+7. **Enable IRQ and Exit the Critical Section**:
+   - Re-enable interrupts (`CPSIE i`) to allow other interrupts to be serviced.
+
+8. **Switch Control to the Next Task and Exit**:
+   - Perform a context switch by branching to the link register (LR) value saved during the context switch (`BX LR`), effectively resuming execution of the next task.
+
+
