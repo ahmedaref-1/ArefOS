@@ -1,0 +1,2 @@
+D:/Embedded Systems Labs Solution/STM32Cube IDE Projects/ArefRTOS/CMSIS_Version5/core_cm3.h:1640:22:__NVIC_SetPriority	16	static
+../MCAL/src/NVIC_program.c:23:6:NVIC_SetPendSVInterruptPriority	16	static
