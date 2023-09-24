@@ -24,3 +24,26 @@ The `ArefRTOS_voidActivateTask` function is a crucial component of the ArefRTOS 
 
 In summary, the `ArefRTOS_voidActivateTask` function serves as a vital component of the ArefRTOS RTOS, responsible for initiating task execution while incorporating error-handling mechanisms. It enhances system reliability by providing a structured approach to task activation.
 
+### 02. ArefRTOS Start Scheduler
+
+The `ArefRTOS_voidStartScheduler` function is a pivotal function within the ArefRTOS real-time operating system (RTOS). It is responsible for initializing and starting the task scheduler, which is essential for managing and executing tasks within the system.
+
+#### Function Explanation
+
+1. **Operating Mode Setup**: This function sets the operating mode of the RTOS to "Running." This state indicates that the RTOS is operational and ready to manage tasks.
+
+2. **Idle Task Initialization**: It assigns the system's initial task as the idle task. The idle task is typically the lowest-priority task in the system, responsible for running when no higher-priority tasks are ready.
+
+3. **Processor Stack Pointer (PSP) Setup**: The system's PSP is set to point to the current process's (idle process) PSP. This configuration prepares the system to execute tasks with the correct stack context.
+
+4. **Idle Task Activation**: The function activates the idle task by calling `ArefRTOS_voidActivateTask` with the pointer to the idle task. This activation allows the idle task to begin execution.
+
+5. **System Ticker Start**: It starts the system ticker, which is crucial for tracking time and managing time-based operations within the RTOS.
+
+6. **Stack Pointer Switch**: The function switches the system's stack pointer (SP) to point to the PSP. This configuration ensures that task-related operations use the PSP for stack management.
+
+7. **Access Level Adjustment**: The access level is switched to "Unprivileged Mode." This is a security measure to restrict certain privileged operations, enhancing system security.
+
+8. **Task Entry Point**: Finally, the function calls the entry point of the task designated as the current task. This step initiates the execution of the first task in the system.
+
+In summary, the `ArefRTOS_voidStartScheduler` function is responsible for initializing and starting the task scheduler in the ArefRTOS RTOS. It sets up the system, activates the initial task (usually the idle task), and begins task execution.
