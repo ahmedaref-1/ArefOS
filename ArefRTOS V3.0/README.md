@@ -46,4 +46,17 @@ The `ArefRTOS_voidStartScheduler` function is a pivotal function within the Aref
 
 8. **Task Entry Point**: Finally, the function calls the entry point of the task designated as the current task. This step initiates the execution of the first task in the system.
 
+### 03. SysTick Handler
+
+The `SysTick_Handler` function is an essential part of the ArefRTOS real-time operating system (RTOS). It is called periodically by the SysTick timer and is responsible for managing task execution and context switching within the system.
+
+#### Function Explanation
+
+1. **Task Selection**: This function initiates the task selection process by calling `ArefRTOS_voidSecondStageDispatcher()`. The dispatcher is responsible for determining which task should run next based on scheduling policies and task priorities.
+
+2. **Context Switching**: After selecting the appropriate task, the `SysTick_Handler` triggers context switching by invoking `SCB_voidTrigPendSV()`. Context switching ensures a seamless transition between tasks and allows the selected task to begin execution.
+
+In summary, the `SysTick_Handler` function plays a critical role in task scheduling and context switching within the ArefRTOS RTOS. It selects the next task to execute and triggers the necessary context switch to ensure smooth task execution.
+
+
 In summary, the `ArefRTOS_voidStartScheduler` function is responsible for initializing and starting the task scheduler in the ArefRTOS RTOS. It sets up the system, activates the initial task (usually the idle task), and begins task execution.
