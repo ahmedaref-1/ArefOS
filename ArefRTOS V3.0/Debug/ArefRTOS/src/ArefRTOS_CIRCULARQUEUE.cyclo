@@ -1,0 +1,4 @@
+ArefRTOS_CIRCULARQUEUE.c:20:13:queue_create	1
+ArefRTOS_CIRCULARQUEUE.c:27:13:queue_add	2
+ArefRTOS_CIRCULARQUEUE.c:40:13:queue_get	2
+ArefRTOS_CIRCULARQUEUE.c:51:9:queue_size	1
