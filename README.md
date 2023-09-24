@@ -10,7 +10,7 @@ ArefOS is a project designed to help you excel in your RTOS course. It provides 
 
 - **Self-Made RTOS**: Explore a fully functional RTOS developed from scratch, designed to demonstrate key RTOS concepts.
 
- **Task Management**: Learn about task creation, scheduling, and management in real-time systems.
+- **Task Management**: Learn about task creation, scheduling, and management in real-time systems.
 
 - **Synchronization**: Understand synchronization techniques such as semaphores and mutexes for safe concurrent programming.
 
