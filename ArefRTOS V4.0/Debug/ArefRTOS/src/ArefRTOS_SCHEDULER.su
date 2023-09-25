@@ -1,0 +1,14 @@
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:112:25:ArefRTOS_staticMainStack	16	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:128:13:ArefRTOS_voidIdleTask	4	static,ignoring_inline_asm
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:206:13:ArefRTOS_voidBubbleSort	16	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:223:13:ArefRTOS_voidFirstStageScheduler	24	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:293:13:ArefRTOS_voidSecondStageDispatcher	16	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:335:18:ArefRTOS_voidCreateTask	32	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:373:18:ArefRTOS_voidInit	16	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:398:18:ArefRTOS_voidActivateTask	24	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:417:18:ArefRTOS_voidTerminateTask	24	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:436:18:ArefRTOS_voidTaskDelay	24	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:451:18:ArefRTOS_voidStartScheduler	16	static,ignoring_inline_asm
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:480:6:ArefRTOS_SVC_CALL	24	static
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:528:18:PendSV_Handler	0	static,ignoring_inline_asm
+../ArefRTOS/src/ArefRTOS_SCHEDULER.c:623:6:SysTick_Handler	8	static

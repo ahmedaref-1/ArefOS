@@ -1,0 +1,8 @@
+ArefRTOS_PORTING.c:44:6:ArefRTOS_voidCallService	5
+ArefRTOS_PORTING.c:61:6:ArefRTOS_voidHardwareInit	1
+ArefRTOS_PORTING.c:69:6:ArefRTOS_voidStartTicker	1
+ArefRTOS_PORTING.c:77:24:HardFault_Handler	1
+ArefRTOS_PORTING.c:82:24:MemManage_Handler	1
+ArefRTOS_PORTING.c:87:24:BusFault_Handler	1
+ArefRTOS_PORTING.c:92:28:UsageFault_Handler	1
+ArefRTOS_PORTING.c:103:18:SVC_Handler	1

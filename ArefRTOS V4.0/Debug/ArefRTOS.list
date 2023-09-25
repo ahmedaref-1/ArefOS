@@ -1,0 +1,2155 @@
+
+ArefRTOS.axf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000130  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00000b4c  08000130  08000130  00010130  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000000  08000c7c  08000c84  00010c84  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .ARM.extab    00000000  08000c7c  08000c7c  00010c84  2**0
+                  CONTENTS
+  4 .ARM          00000000  08000c7c  08000c7c  00010c84  2**0
+                  CONTENTS
+  5 .preinit_array 00000000  08000c7c  08000c84  00010c84  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08000c7c  08000c7c  00010c7c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .fini_array   00000004  08000c80  08000c80  00010c80  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data         00000000  20000000  20000000  00010c84  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .bss          0000013c  20000000  08000c84  00020000  2**2
+                  ALLOC
+ 10 ._user_heap_stack 00000604  2000013c  08000c84  0002013c  2**0
+                  ALLOC
+ 11 .ARM.attributes 00000029  00000000  00000000  00010c84  2**0
+                  CONTENTS, READONLY
+ 12 .debug_info   00001be2  00000000  00000000  00010cad  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 13 .debug_abbrev 000008dc  00000000  00000000  0001288f  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_loc    00000914  00000000  00000000  0001316b  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_aranges 000001f0  00000000  00000000  00013a80  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_ranges 00000178  00000000  00000000  00013c70  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_macro  00002545  00000000  00000000  00013de8  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_line   00002b6f  00000000  00000000  0001632d  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 19 .debug_str    0000a02e  00000000  00000000  00018e9c  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 20 .comment      00000050  00000000  00000000  00022eca  2**0
+                  CONTENTS, READONLY
+ 21 .debug_frame  00000518  00000000  00000000  00022f1c  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+08000130 <__do_global_dtors_aux>:
+ 8000130:	b510      	push	{r4, lr}
+ 8000132:	4c05      	ldr	r4, [pc, #20]	; (8000148 <__do_global_dtors_aux+0x18>)
+ 8000134:	7823      	ldrb	r3, [r4, #0]
+ 8000136:	b933      	cbnz	r3, 8000146 <__do_global_dtors_aux+0x16>
+ 8000138:	4b04      	ldr	r3, [pc, #16]	; (800014c <__do_global_dtors_aux+0x1c>)
+ 800013a:	b113      	cbz	r3, 8000142 <__do_global_dtors_aux+0x12>
+ 800013c:	4804      	ldr	r0, [pc, #16]	; (8000150 <__do_global_dtors_aux+0x20>)
+ 800013e:	f3af 8000 	nop.w
+ 8000142:	2301      	movs	r3, #1
+ 8000144:	7023      	strb	r3, [r4, #0]
+ 8000146:	bd10      	pop	{r4, pc}
+ 8000148:	20000000 	.word	0x20000000
+ 800014c:	00000000 	.word	0x00000000
+ 8000150:	08000c64 	.word	0x08000c64
+
+08000154 <frame_dummy>:
+ 8000154:	b508      	push	{r3, lr}
+ 8000156:	4b03      	ldr	r3, [pc, #12]	; (8000164 <frame_dummy+0x10>)
+ 8000158:	b11b      	cbz	r3, 8000162 <frame_dummy+0xe>
+ 800015a:	4903      	ldr	r1, [pc, #12]	; (8000168 <frame_dummy+0x14>)
+ 800015c:	4803      	ldr	r0, [pc, #12]	; (800016c <frame_dummy+0x18>)
+ 800015e:	f3af 8000 	nop.w
+ 8000162:	bd08      	pop	{r3, pc}
+ 8000164:	00000000 	.word	0x00000000
+ 8000168:	20000004 	.word	0x20000004
+ 800016c:	08000c64 	.word	0x08000c64
+
+08000170 <queue_create>:
+* 														   *
+*			    FUNCTIONS DEFINITION	                   *
+*														   *
+************************************************************/
+QUEUE_STATE queue_create(queue_t *ptq)
+{
+ 8000170:	b480      	push	{r7}
+ 8000172:	b083      	sub	sp, #12
+ 8000174:	af00      	add	r7, sp, #0
+ 8000176:	6078      	str	r0, [r7, #4]
+    ptq->_rear = 0 ;
+ 8000178:	687b      	ldr	r3, [r7, #4]
+ 800017a:	2200      	movs	r2, #0
+ 800017c:	601a      	str	r2, [r3, #0]
+    ptq->_front = 0 ;
+ 800017e:	687b      	ldr	r3, [r7, #4]
+ 8000180:	2200      	movs	r2, #0
+ 8000182:	605a      	str	r2, [r3, #4]
+    ptq->_counter = 0 ;
+ 8000184:	687b      	ldr	r3, [r7, #4]
+ 8000186:	2200      	movs	r2, #0
+ 8000188:	609a      	str	r2, [r3, #8]
+    return QUEUE_NO_ERROR ;
+ 800018a:	2300      	movs	r3, #0
+}
+ 800018c:	4618      	mov	r0, r3
+ 800018e:	370c      	adds	r7, #12
+ 8000190:	46bd      	mov	sp, r7
+ 8000192:	bc80      	pop	{r7}
+ 8000194:	4770      	bx	lr
+	...
+
+08000198 <queue_add>:
+QUEUE_STATE queue_add(queueEntry dataEnqueue ,queue_t *ptq)
+{
+ 8000198:	b480      	push	{r7}
+ 800019a:	b083      	sub	sp, #12
+ 800019c:	af00      	add	r7, sp, #0
+ 800019e:	6078      	str	r0, [r7, #4]
+ 80001a0:	6039      	str	r1, [r7, #0]
+    /* Check if it full */
+    if(ptq->_counter >= queueSize)
+ 80001a2:	683b      	ldr	r3, [r7, #0]
+ 80001a4:	689b      	ldr	r3, [r3, #8]
+ 80001a6:	2b09      	cmp	r3, #9
+ 80001a8:	dd01      	ble.n	80001ae <queue_add+0x16>
+        return QUEUE_FULL ;
+ 80001aa:	2301      	movs	r3, #1
+ 80001ac:	e021      	b.n	80001f2 <queue_add+0x5a>
+    ptq->_rear = (ptq->_rear) % queueSize ;
+ 80001ae:	683b      	ldr	r3, [r7, #0]
+ 80001b0:	6819      	ldr	r1, [r3, #0]
+ 80001b2:	4b12      	ldr	r3, [pc, #72]	; (80001fc <queue_add+0x64>)
+ 80001b4:	fb83 2301 	smull	r2, r3, r3, r1
+ 80001b8:	109a      	asrs	r2, r3, #2
+ 80001ba:	17cb      	asrs	r3, r1, #31
+ 80001bc:	1ad2      	subs	r2, r2, r3
+ 80001be:	4613      	mov	r3, r2
+ 80001c0:	009b      	lsls	r3, r3, #2
+ 80001c2:	4413      	add	r3, r2
+ 80001c4:	005b      	lsls	r3, r3, #1
+ 80001c6:	1aca      	subs	r2, r1, r3
+ 80001c8:	683b      	ldr	r3, [r7, #0]
+ 80001ca:	601a      	str	r2, [r3, #0]
+    ptq->_queueArr[ptq->_rear] = dataEnqueue ;
+ 80001cc:	683b      	ldr	r3, [r7, #0]
+ 80001ce:	681b      	ldr	r3, [r3, #0]
+ 80001d0:	683a      	ldr	r2, [r7, #0]
+ 80001d2:	3302      	adds	r3, #2
+ 80001d4:	009b      	lsls	r3, r3, #2
+ 80001d6:	4413      	add	r3, r2
+ 80001d8:	687a      	ldr	r2, [r7, #4]
+ 80001da:	605a      	str	r2, [r3, #4]
+    ptq->_rear++ ;
+ 80001dc:	683b      	ldr	r3, [r7, #0]
+ 80001de:	681b      	ldr	r3, [r3, #0]
+ 80001e0:	1c5a      	adds	r2, r3, #1
+ 80001e2:	683b      	ldr	r3, [r7, #0]
+ 80001e4:	601a      	str	r2, [r3, #0]
+    ptq->_counter++;
+ 80001e6:	683b      	ldr	r3, [r7, #0]
+ 80001e8:	689b      	ldr	r3, [r3, #8]
+ 80001ea:	1c5a      	adds	r2, r3, #1
+ 80001ec:	683b      	ldr	r3, [r7, #0]
+ 80001ee:	609a      	str	r2, [r3, #8]
+    return QUEUE_NO_ERROR ;
+ 80001f0:	2300      	movs	r3, #0
+}
+ 80001f2:	4618      	mov	r0, r3
+ 80001f4:	370c      	adds	r7, #12
+ 80001f6:	46bd      	mov	sp, r7
+ 80001f8:	bc80      	pop	{r7}
+ 80001fa:	4770      	bx	lr
+ 80001fc:	66666667 	.word	0x66666667
+
+08000200 <queue_get>:
+
+
+QUEUE_STATE queue_get(queueEntry *dataEnqueue ,queue_t *ptq)
+{
+ 8000200:	b480      	push	{r7}
+ 8000202:	b083      	sub	sp, #12
+ 8000204:	af00      	add	r7, sp, #0
+ 8000206:	6078      	str	r0, [r7, #4]
+ 8000208:	6039      	str	r1, [r7, #0]
+    /* Check if it empty */
+    if(ptq->_counter == 0)
+ 800020a:	683b      	ldr	r3, [r7, #0]
+ 800020c:	689b      	ldr	r3, [r3, #8]
+ 800020e:	2b00      	cmp	r3, #0
+ 8000210:	d101      	bne.n	8000216 <queue_get+0x16>
+        return QUEUE_EMPTY ;
+ 8000212:	2302      	movs	r3, #2
+ 8000214:	e022      	b.n	800025c <queue_get+0x5c>
+    ptq->_front = (ptq->_front) % queueSize ;
+ 8000216:	683b      	ldr	r3, [r7, #0]
+ 8000218:	6859      	ldr	r1, [r3, #4]
+ 800021a:	4b13      	ldr	r3, [pc, #76]	; (8000268 <queue_get+0x68>)
+ 800021c:	fb83 2301 	smull	r2, r3, r3, r1
+ 8000220:	109a      	asrs	r2, r3, #2
+ 8000222:	17cb      	asrs	r3, r1, #31
+ 8000224:	1ad2      	subs	r2, r2, r3
+ 8000226:	4613      	mov	r3, r2
+ 8000228:	009b      	lsls	r3, r3, #2
+ 800022a:	4413      	add	r3, r2
+ 800022c:	005b      	lsls	r3, r3, #1
+ 800022e:	1aca      	subs	r2, r1, r3
+ 8000230:	683b      	ldr	r3, [r7, #0]
+ 8000232:	605a      	str	r2, [r3, #4]
+    *dataEnqueue = ptq->_queueArr[ptq->_front]  ;
+ 8000234:	683b      	ldr	r3, [r7, #0]
+ 8000236:	685b      	ldr	r3, [r3, #4]
+ 8000238:	683a      	ldr	r2, [r7, #0]
+ 800023a:	3302      	adds	r3, #2
+ 800023c:	009b      	lsls	r3, r3, #2
+ 800023e:	4413      	add	r3, r2
+ 8000240:	685a      	ldr	r2, [r3, #4]
+ 8000242:	687b      	ldr	r3, [r7, #4]
+ 8000244:	601a      	str	r2, [r3, #0]
+    ptq->_front++ ;
+ 8000246:	683b      	ldr	r3, [r7, #0]
+ 8000248:	685b      	ldr	r3, [r3, #4]
+ 800024a:	1c5a      	adds	r2, r3, #1
+ 800024c:	683b      	ldr	r3, [r7, #0]
+ 800024e:	605a      	str	r2, [r3, #4]
+    ptq->_counter--;
+ 8000250:	683b      	ldr	r3, [r7, #0]
+ 8000252:	689b      	ldr	r3, [r3, #8]
+ 8000254:	1e5a      	subs	r2, r3, #1
+ 8000256:	683b      	ldr	r3, [r7, #0]
+ 8000258:	609a      	str	r2, [r3, #8]
+    return QUEUE_NO_ERROR ;
+ 800025a:	2300      	movs	r3, #0
+}
+ 800025c:	4618      	mov	r0, r3
+ 800025e:	370c      	adds	r7, #12
+ 8000260:	46bd      	mov	sp, r7
+ 8000262:	bc80      	pop	{r7}
+ 8000264:	4770      	bx	lr
+ 8000266:	bf00      	nop
+ 8000268:	66666667 	.word	0x66666667
+
+0800026c <queue_size>:
+uint8_t queue_size(queue_t *ptq)
+{
+ 800026c:	b480      	push	{r7}
+ 800026e:	b083      	sub	sp, #12
+ 8000270:	af00      	add	r7, sp, #0
+ 8000272:	6078      	str	r0, [r7, #4]
+    return ptq->_counter ;
+ 8000274:	687b      	ldr	r3, [r7, #4]
+ 8000276:	689b      	ldr	r3, [r3, #8]
+ 8000278:	b2db      	uxtb	r3, r3
+}
+ 800027a:	4618      	mov	r0, r3
+ 800027c:	370c      	adds	r7, #12
+ 800027e:	46bd      	mov	sp, r7
+ 8000280:	bc80      	pop	{r7}
+ 8000282:	4770      	bx	lr
+
+08000284 <ArefRTOS_voidCallService>:
+* 														   *
+*			       FUNCTIONS DEFINITIONS                   *
+*														   *
+************************************************************/
+void ArefRTOS_voidCallService(uint8_t copy_u8ServiceID)
+{
+ 8000284:	b480      	push	{r7}
+ 8000286:	b083      	sub	sp, #12
+ 8000288:	af00      	add	r7, sp, #0
+ 800028a:	4603      	mov	r3, r0
+ 800028c:	71fb      	strb	r3, [r7, #7]
+	switch(copy_u8ServiceID)
+ 800028e:	79fb      	ldrb	r3, [r7, #7]
+ 8000290:	2b02      	cmp	r3, #2
+ 8000292:	d00a      	beq.n	80002aa <ArefRTOS_voidCallService+0x26>
+ 8000294:	2b02      	cmp	r3, #2
+ 8000296:	dc0a      	bgt.n	80002ae <ArefRTOS_voidCallService+0x2a>
+ 8000298:	2b00      	cmp	r3, #0
+ 800029a:	d002      	beq.n	80002a2 <ArefRTOS_voidCallService+0x1e>
+ 800029c:	2b01      	cmp	r3, #1
+ 800029e:	d002      	beq.n	80002a6 <ArefRTOS_voidCallService+0x22>
+			break;
+		case ArefRTOS_SVC_REQUEST2 :
+			__asm("SVC #0x02");
+			break;
+	}
+}
+ 80002a0:	e005      	b.n	80002ae <ArefRTOS_voidCallService+0x2a>
+			__asm("SVC #0x00");
+ 80002a2:	df00      	svc	0
+			break;
+ 80002a4:	e003      	b.n	80002ae <ArefRTOS_voidCallService+0x2a>
+			__asm("SVC #0x01");
+ 80002a6:	df01      	svc	1
+			break;
+ 80002a8:	e001      	b.n	80002ae <ArefRTOS_voidCallService+0x2a>
+			__asm("SVC #0x02");
+ 80002aa:	df02      	svc	2
+			break;
+ 80002ac:	bf00      	nop
+}
+ 80002ae:	bf00      	nop
+ 80002b0:	370c      	adds	r7, #12
+ 80002b2:	46bd      	mov	sp, r7
+ 80002b4:	bc80      	pop	{r7}
+ 80002b6:	4770      	bx	lr
+
+080002b8 <ArefRTOS_voidHardwareInit>:
+
+
+void ArefRTOS_voidHardwareInit(void){
+ 80002b8:	b580      	push	{r7, lr}
+ 80002ba:	af00      	add	r7, sp, #0
+	/* To initialize the STK driver */
+
+	/* To Set Priorities	*/
+    //01.Set the PendSV interrupt priority to the lowest level*/
+	NVIC_SetPendSVInterruptPriority();
+ 80002bc:	f000 fba4 	bl	8000a08 <NVIC_SetPendSVInterruptPriority>
+}
+ 80002c0:	bf00      	nop
+ 80002c2:	bd80      	pop	{r7, pc}
+
+080002c4 <ArefRTOS_voidStartTicker>:
+
+void ArefRTOS_voidStartTicker(void){
+ 80002c4:	b580      	push	{r7, lr}
+ 80002c6:	af00      	add	r7, sp, #0
+ STK_SetPeriodicInterruptInterval();
+ 80002c8:	f000 fc02 	bl	8000ad0 <STK_SetPeriodicInterruptInterval>
+}
+ 80002cc:	bf00      	nop
+ 80002ce:	bd80      	pop	{r7, pc}
+
+080002d0 <HardFault_Handler>:
+* 														   *
+*			       IRQ FAULTS DEFINITIONS                  *
+*														   *
+************************************************************/
+_attribute_(weak) void HardFault_Handler (void)
+  {
+ 80002d0:	b480      	push	{r7}
+ 80002d2:	af00      	add	r7, sp, #0
+  	while(1);
+ 80002d4:	e7fe      	b.n	80002d4 <HardFault_Handler+0x4>
+
+080002d6 <MemManage_Handler>:
+  }
+
+_attribute_(weak) void MemManage_Handler(void)
+  {
+ 80002d6:	b480      	push	{r7}
+ 80002d8:	af00      	add	r7, sp, #0
+  	while(1);
+ 80002da:	e7fe      	b.n	80002da <MemManage_Handler+0x4>
+
+080002dc <BusFault_Handler>:
+  }
+
+_attribute_(weak) void BusFault_Handler(void)
+  {
+ 80002dc:	b480      	push	{r7}
+ 80002de:	af00      	add	r7, sp, #0
+  	while(1);
+ 80002e0:	e7fe      	b.n	80002e0 <BusFault_Handler+0x4>
+
+080002e2 <UsageFault_Handler>:
+  }
+
+_attribute_(__WEAK__) void UsageFault_Handler(void)
+  {
+ 80002e2:	b480      	push	{r7}
+ 80002e4:	af00      	add	r7, sp, #0
+  	while(1);
+ 80002e6:	e7fe      	b.n	80002e6 <UsageFault_Handler+0x4>
+
+080002e8 <SVC_Handler>:
+*			      IRQ HANDLERS DEFINITIONS                 *
+*														   *
+************************************************************/
+FORCE_NAKED void SVC_Handler(void)
+{
+	__asm("TST   LR, #4   \n\t"
+ 80002e8:	f01e 0f04 	tst.w	lr, #4
+ 80002ec:	bf0c      	ite	eq
+ 80002ee:	f3ef 8008 	mrseq	r0, MSP
+ 80002f2:	f3ef 8009 	mrsne	r0, PSP
+ 80002f6:	f000 ba37 	b.w	8000768 <ArefRTOS_SVC_CALL>
+		  "ITE   EQ 	  \n\t"
+		  "MRSEQ R0,MSP   \n\t"
+		  "MRSNE R0,PSP   \n\t"
+		  "B 	 ArefRTOS_SVC_CALL");
+}
+ 80002fa:	bf00      	nop
+
+080002fc <ArefRTOS_staticMainStack>:
+************************************************************/
+/* @brief This Function is used to create the Main stack area with user defined size @ref MainStackSize
+ * @return ArefRTOS_ErrorID return one of @ref ArefRTOS_ErrorID
+ */
+static ArefRTOS_ErrorID ArefRTOS_staticMainStack()
+{
+ 80002fc:	b480      	push	{r7}
+ 80002fe:	b083      	sub	sp, #12
+ 8000300:	af00      	add	r7, sp, #0
+	ArefRTOS_ErrorID	LOC_ArefRTOS_ErrorID =	NoError ;
+ 8000302:	2300      	movs	r3, #0
+ 8000304:	71fb      	strb	r3, [r7, #7]
+	// 01. Initialize start of main stack as top of HW stack
+	OS_Control._S_MSP_Task = (uint32_t)&START_OF_STACK_IN_HW ;
+ 8000306:	4a0d      	ldr	r2, [pc, #52]	; (800033c <ArefRTOS_staticMainStack+0x40>)
+ 8000308:	4b0d      	ldr	r3, [pc, #52]	; (8000340 <ArefRTOS_staticMainStack+0x44>)
+ 800030a:	601a      	str	r2, [r3, #0]
+	// 02. Initialize the end of main stack
+	OS_Control._E_MSP_Task = (uint32_t)(OS_Control._S_MSP_Task - MAINSTACKSIZE) ;
+ 800030c:	4b0c      	ldr	r3, [pc, #48]	; (8000340 <ArefRTOS_staticMainStack+0x44>)
+ 800030e:	681b      	ldr	r3, [r3, #0]
+ 8000310:	f5a3 6300 	sub.w	r3, r3, #2048	; 0x800
+ 8000314:	4a0a      	ldr	r2, [pc, #40]	; (8000340 <ArefRTOS_staticMainStack+0x44>)
+ 8000316:	6053      	str	r3, [r2, #4]
+	// 03. Check if exceeded the available stack size,The processor uses a full descending stack
+	CHECK_STACK_OVF(OS_Control._E_MSP_Task) ;
+ 8000318:	4b09      	ldr	r3, [pc, #36]	; (8000340 <ArefRTOS_staticMainStack+0x44>)
+ 800031a:	685b      	ldr	r3, [r3, #4]
+ 800031c:	4a09      	ldr	r2, [pc, #36]	; (8000344 <ArefRTOS_staticMainStack+0x48>)
+ 800031e:	4293      	cmp	r3, r2
+ 8000320:	d201      	bcs.n	8000326 <ArefRTOS_staticMainStack+0x2a>
+ 8000322:	2301      	movs	r3, #1
+ 8000324:	71fb      	strb	r3, [r7, #7]
+	// 04. Reserve four bytes as safety and hold the last address in HW stack
+	OS_Control.HW_Stack_Locator = ( OS_Control._E_MSP_Task - SAFETY_SPACE_BETWEEN_STACKS) ;
+ 8000326:	4b06      	ldr	r3, [pc, #24]	; (8000340 <ArefRTOS_staticMainStack+0x44>)
+ 8000328:	685b      	ldr	r3, [r3, #4]
+ 800032a:	3b04      	subs	r3, #4
+ 800032c:	4a04      	ldr	r2, [pc, #16]	; (8000340 <ArefRTOS_staticMainStack+0x44>)
+ 800032e:	6093      	str	r3, [r2, #8]
+
+	return LOC_ArefRTOS_ErrorID ;
+ 8000330:	79fb      	ldrb	r3, [r7, #7]
+}
+ 8000332:	4618      	mov	r0, r3
+ 8000334:	370c      	adds	r7, #12
+ 8000336:	46bd      	mov	sp, r7
+ 8000338:	bc80      	pop	{r7}
+ 800033a:	4770      	bx	lr
+ 800033c:	20002800 	.word	0x20002800
+ 8000340:	2000001c 	.word	0x2000001c
+ 8000344:	20000340 	.word	0x20000340
+
+08000348 <ArefRTOS_voidIdleTask>:
+
+/* @brief Definition of Idle Task */
+static void ArefRTOS_voidIdleTask(void)
+{
+ 8000348:	b480      	push	{r7}
+ 800034a:	af00      	add	r7, sp, #0
+	for(;;){
+		IDLETaskLED^=1;
+ 800034c:	4b04      	ldr	r3, [pc, #16]	; (8000360 <ArefRTOS_voidIdleTask+0x18>)
+ 800034e:	781b      	ldrb	r3, [r3, #0]
+ 8000350:	f083 0301 	eor.w	r3, r3, #1
+ 8000354:	b2da      	uxtb	r2, r3
+ 8000356:	4b02      	ldr	r3, [pc, #8]	; (8000360 <ArefRTOS_voidIdleTask+0x18>)
+ 8000358:	701a      	strb	r2, [r3, #0]
+		// "WFE" instruction waits for various events, including both external and exceptional interrupts.
+		__asm("WFE");
+ 800035a:	bf20      	wfe
+		IDLETaskLED^=1;
+ 800035c:	e7f6      	b.n	800034c <ArefRTOS_voidIdleTask+0x4>
+ 800035e:	bf00      	nop
+ 8000360:	200000bc 	.word	0x200000bc
+
+08000364 <ArefRTOS_voidBubbleSort>:
+		*(pTask->TaskPrivateStates.pCurrentPSP) = INIT_VAL_FOR_REG ;
+	}
+
+}
+
+static void ArefRTOS_voidBubbleSort(){
+ 8000364:	b480      	push	{r7}
+ 8000366:	b083      	sub	sp, #12
+ 8000368:	af00      	add	r7, sp, #0
+	// 01.Initialize the counter and create a temp variable of type ArefRTOS Task
+	uint8_t LOC_u8Counter = OS_Control.CurrentNumberofTasks ;
+ 800036a:	4b25      	ldr	r3, [pc, #148]	; (8000400 <ArefRTOS_voidBubbleSort+0x9c>)
+ 800036c:	f893 3040 	ldrb.w	r3, [r3, #64]	; 0x40
+ 8000370:	717b      	strb	r3, [r7, #5]
+	ArefRTOS_Task *LOC_tempTask = NULL ;
+ 8000372:	2300      	movs	r3, #0
+ 8000374:	603b      	str	r3, [r7, #0]
+
+	// 02.Apply the bubble sort algorithm based on priority (lowest value is the highest priority)
+	for(uint8_t i = 0 ; i < LOC_u8Counter - 1 ; i++){
+ 8000376:	2300      	movs	r3, #0
+ 8000378:	71fb      	strb	r3, [r7, #7]
+ 800037a:	e036      	b.n	80003ea <ArefRTOS_voidBubbleSort+0x86>
+		for(uint8_t j = 0 ; j < LOC_u8Counter - i - 1; j++  ){
+ 800037c:	2300      	movs	r3, #0
+ 800037e:	71bb      	strb	r3, [r7, #6]
+ 8000380:	e029      	b.n	80003d6 <ArefRTOS_voidBubbleSort+0x72>
+			if(OS_Control.OS_SchedulerTable[j]->TaskPriority > OS_Control.OS_SchedulerTable[j+1]->TaskPriority){
+ 8000382:	79bb      	ldrb	r3, [r7, #6]
+ 8000384:	4a1e      	ldr	r2, [pc, #120]	; (8000400 <ArefRTOS_voidBubbleSort+0x9c>)
+ 8000386:	3304      	adds	r3, #4
+ 8000388:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800038c:	7a1a      	ldrb	r2, [r3, #8]
+ 800038e:	79bb      	ldrb	r3, [r7, #6]
+ 8000390:	3301      	adds	r3, #1
+ 8000392:	491b      	ldr	r1, [pc, #108]	; (8000400 <ArefRTOS_voidBubbleSort+0x9c>)
+ 8000394:	3304      	adds	r3, #4
+ 8000396:	f851 3023 	ldr.w	r3, [r1, r3, lsl #2]
+ 800039a:	7a1b      	ldrb	r3, [r3, #8]
+ 800039c:	429a      	cmp	r2, r3
+ 800039e:	d917      	bls.n	80003d0 <ArefRTOS_voidBubbleSort+0x6c>
+				LOC_tempTask = OS_Control.OS_SchedulerTable[j];
+ 80003a0:	79bb      	ldrb	r3, [r7, #6]
+ 80003a2:	4a17      	ldr	r2, [pc, #92]	; (8000400 <ArefRTOS_voidBubbleSort+0x9c>)
+ 80003a4:	3304      	adds	r3, #4
+ 80003a6:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 80003aa:	603b      	str	r3, [r7, #0]
+				OS_Control.OS_SchedulerTable[j] = OS_Control.OS_SchedulerTable[j+1];
+ 80003ac:	79bb      	ldrb	r3, [r7, #6]
+ 80003ae:	1c5a      	adds	r2, r3, #1
+ 80003b0:	79bb      	ldrb	r3, [r7, #6]
+ 80003b2:	4913      	ldr	r1, [pc, #76]	; (8000400 <ArefRTOS_voidBubbleSort+0x9c>)
+ 80003b4:	3204      	adds	r2, #4
+ 80003b6:	f851 2022 	ldr.w	r2, [r1, r2, lsl #2]
+ 80003ba:	4911      	ldr	r1, [pc, #68]	; (8000400 <ArefRTOS_voidBubbleSort+0x9c>)
+ 80003bc:	3304      	adds	r3, #4
+ 80003be:	f841 2023 	str.w	r2, [r1, r3, lsl #2]
+				OS_Control.OS_SchedulerTable[j+1] = LOC_tempTask;
+ 80003c2:	79bb      	ldrb	r3, [r7, #6]
+ 80003c4:	3301      	adds	r3, #1
+ 80003c6:	490e      	ldr	r1, [pc, #56]	; (8000400 <ArefRTOS_voidBubbleSort+0x9c>)
+ 80003c8:	3304      	adds	r3, #4
+ 80003ca:	683a      	ldr	r2, [r7, #0]
+ 80003cc:	f841 2023 	str.w	r2, [r1, r3, lsl #2]
+		for(uint8_t j = 0 ; j < LOC_u8Counter - i - 1; j++  ){
+ 80003d0:	79bb      	ldrb	r3, [r7, #6]
+ 80003d2:	3301      	adds	r3, #1
+ 80003d4:	71bb      	strb	r3, [r7, #6]
+ 80003d6:	79ba      	ldrb	r2, [r7, #6]
+ 80003d8:	7979      	ldrb	r1, [r7, #5]
+ 80003da:	79fb      	ldrb	r3, [r7, #7]
+ 80003dc:	1acb      	subs	r3, r1, r3
+ 80003de:	3b01      	subs	r3, #1
+ 80003e0:	429a      	cmp	r2, r3
+ 80003e2:	dbce      	blt.n	8000382 <ArefRTOS_voidBubbleSort+0x1e>
+	for(uint8_t i = 0 ; i < LOC_u8Counter - 1 ; i++){
+ 80003e4:	79fb      	ldrb	r3, [r7, #7]
+ 80003e6:	3301      	adds	r3, #1
+ 80003e8:	71fb      	strb	r3, [r7, #7]
+ 80003ea:	79fa      	ldrb	r2, [r7, #7]
+ 80003ec:	797b      	ldrb	r3, [r7, #5]
+ 80003ee:	3b01      	subs	r3, #1
+ 80003f0:	429a      	cmp	r2, r3
+ 80003f2:	dbc3      	blt.n	800037c <ArefRTOS_voidBubbleSort+0x18>
+			}
+		}
+	}
+}
+ 80003f4:	bf00      	nop
+ 80003f6:	bf00      	nop
+ 80003f8:	370c      	adds	r7, #12
+ 80003fa:	46bd      	mov	sp, r7
+ 80003fc:	bc80      	pop	{r7}
+ 80003fe:	4770      	bx	lr
+ 8000400:	2000001c 	.word	0x2000001c
+
+08000404 <ArefRTOS_voidFirstStageScheduler>:
+
+static void ArefRTOS_voidFirstStageScheduler(){
+ 8000404:	b580      	push	{r7, lr}
+ 8000406:	b084      	sub	sp, #16
+ 8000408:	af00      	add	r7, sp, #0
+
+	// 01.Create some temporary local variables
+	ArefRTOS_Task *LOC_currentTask = NULL , *LOC_nextTask = NULL,*LOC_tempTask = NULL ;
+ 800040a:	2300      	movs	r3, #0
+ 800040c:	60bb      	str	r3, [r7, #8]
+ 800040e:	2300      	movs	r3, #0
+ 8000410:	607b      	str	r3, [r7, #4]
+ 8000412:	2300      	movs	r3, #0
+ 8000414:	603b      	str	r3, [r7, #0]
+	uint8_t LOC_u8Counter = 0;
+ 8000416:	2300      	movs	r3, #0
+ 8000418:	73fb      	strb	r3, [r7, #15]
+
+
+	// 02.Sort Tasks in the tasks table
+	ArefRTOS_voidBubbleSort();
+ 800041a:	f7ff ffa3 	bl	8000364 <ArefRTOS_voidBubbleSort>
+
+	// 03.Select Current and Next Task
+		//03.1.Free Ready Queue
+		while(queue_get(&LOC_tempTask, &Global_QueueOfReadyTasks) != QUEUE_EMPTY);
+ 800041e:	bf00      	nop
+ 8000420:	463b      	mov	r3, r7
+ 8000422:	4928      	ldr	r1, [pc, #160]	; (80004c4 <ArefRTOS_voidFirstStageScheduler+0xc0>)
+ 8000424:	4618      	mov	r0, r3
+ 8000426:	f7ff feeb 	bl	8000200 <queue_get>
+ 800042a:	4603      	mov	r3, r0
+ 800042c:	2b02      	cmp	r3, #2
+ 800042e:	d1f7      	bne.n	8000420 <ArefRTOS_voidFirstStageScheduler+0x1c>
+
+		// 03.2.Update Ready Queue
+		for(LOC_u8Counter = 0 ; LOC_u8Counter < OS_Control.CurrentNumberofTasks; LOC_u8Counter++)
+ 8000430:	2300      	movs	r3, #0
+ 8000432:	73fb      	strb	r3, [r7, #15]
+ 8000434:	e03a      	b.n	80004ac <ArefRTOS_voidFirstStageScheduler+0xa8>
+		{
+			LOC_currentTask = OS_Control.OS_SchedulerTable[LOC_u8Counter];
+ 8000436:	7bfb      	ldrb	r3, [r7, #15]
+ 8000438:	4a23      	ldr	r2, [pc, #140]	; (80004c8 <ArefRTOS_voidFirstStageScheduler+0xc4>)
+ 800043a:	3304      	adds	r3, #4
+ 800043c:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 8000440:	60bb      	str	r3, [r7, #8]
+			LOC_nextTask = OS_Control.OS_SchedulerTable[LOC_u8Counter+1];
+ 8000442:	7bfb      	ldrb	r3, [r7, #15]
+ 8000444:	3301      	adds	r3, #1
+ 8000446:	4a20      	ldr	r2, [pc, #128]	; (80004c8 <ArefRTOS_voidFirstStageScheduler+0xc4>)
+ 8000448:	3304      	adds	r3, #4
+ 800044a:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 800044e:	607b      	str	r3, [r7, #4]
+			/*
+			  -The OS tasks table is already sorted from the previous step
+			  -Waiting Tasks will be added to the ready queue only if their state is not suspended
+			   and their priorities are the highest priority among those tasks in the OS tasks table
+			*/
+			if(LOC_currentTask->TaskPrivateStates.TaskState != TS_Suspend)
+ 8000450:	68bb      	ldr	r3, [r7, #8]
+ 8000452:	7c1b      	ldrb	r3, [r3, #16]
+ 8000454:	2b00      	cmp	r3, #0
+ 8000456:	d026      	beq.n	80004a6 <ArefRTOS_voidFirstStageScheduler+0xa2>
+
+				/*
+				 	 03.2.1.1.Case we reached the end of the OS tasks table or
+				 	 Then Enqueue the current task, change its state to ready and terminate
+				 */
+				if(LOC_nextTask->TaskPriority == TS_Suspend){
+ 8000458:	687b      	ldr	r3, [r7, #4]
+ 800045a:	7a1b      	ldrb	r3, [r3, #8]
+ 800045c:	2b00      	cmp	r3, #0
+ 800045e:	d107      	bne.n	8000470 <ArefRTOS_voidFirstStageScheduler+0x6c>
+					queue_add(LOC_currentTask, &Global_QueueOfReadyTasks);
+ 8000460:	4918      	ldr	r1, [pc, #96]	; (80004c4 <ArefRTOS_voidFirstStageScheduler+0xc0>)
+ 8000462:	68b8      	ldr	r0, [r7, #8]
+ 8000464:	f7ff fe98 	bl	8000198 <queue_add>
+					LOC_currentTask->TaskPrivateStates.TaskState = TS_Ready;
+ 8000468:	68bb      	ldr	r3, [r7, #8]
+ 800046a:	2203      	movs	r2, #3
+ 800046c:	741a      	strb	r2, [r3, #16]
+					break ;
+ 800046e:	e025      	b.n	80004bc <ArefRTOS_voidFirstStageScheduler+0xb8>
+				}
+				/*
+				 	 03.2.1.2.Case current task priority number is less than next task priority number (current task has higher priority)
+				 	 Then Enqueue the current task, change its state to ready and terminate
+				 */
+				else if(LOC_currentTask->TaskPriority < LOC_nextTask->TaskPriority){
+ 8000470:	68bb      	ldr	r3, [r7, #8]
+ 8000472:	7a1a      	ldrb	r2, [r3, #8]
+ 8000474:	687b      	ldr	r3, [r7, #4]
+ 8000476:	7a1b      	ldrb	r3, [r3, #8]
+ 8000478:	429a      	cmp	r2, r3
+ 800047a:	d207      	bcs.n	800048c <ArefRTOS_voidFirstStageScheduler+0x88>
+					queue_add(LOC_currentTask, &Global_QueueOfReadyTasks);
+ 800047c:	4911      	ldr	r1, [pc, #68]	; (80004c4 <ArefRTOS_voidFirstStageScheduler+0xc0>)
+ 800047e:	68b8      	ldr	r0, [r7, #8]
+ 8000480:	f7ff fe8a 	bl	8000198 <queue_add>
+					LOC_currentTask->TaskPrivateStates.TaskState = TS_Ready;
+ 8000484:	68bb      	ldr	r3, [r7, #8]
+ 8000486:	2203      	movs	r2, #3
+ 8000488:	741a      	strb	r2, [r3, #16]
+					break ;
+ 800048a:	e017      	b.n	80004bc <ArefRTOS_voidFirstStageScheduler+0xb8>
+				 	 03.2.1.3.Case current task priority number equals next task priority number (current task has higher priority)
+				 	 Then Round-Robin takes place, Enqueue current task to the ready queue
+				 	 and by default the next task will be the current task for the next iteration so it will be handled automatically
+				 	 So just don't break and keep it looping to enqueue tasks that should run in Round-Robin with time slices
+				 */
+				else if(LOC_currentTask->TaskPriority == LOC_nextTask->TaskPriority)
+ 800048c:	68bb      	ldr	r3, [r7, #8]
+ 800048e:	7a1a      	ldrb	r2, [r3, #8]
+ 8000490:	687b      	ldr	r3, [r7, #4]
+ 8000492:	7a1b      	ldrb	r3, [r3, #8]
+ 8000494:	429a      	cmp	r2, r3
+ 8000496:	d110      	bne.n	80004ba <ArefRTOS_voidFirstStageScheduler+0xb6>
+				{
+					queue_add(LOC_currentTask, &Global_QueueOfReadyTasks);
+ 8000498:	490a      	ldr	r1, [pc, #40]	; (80004c4 <ArefRTOS_voidFirstStageScheduler+0xc0>)
+ 800049a:	68b8      	ldr	r0, [r7, #8]
+ 800049c:	f7ff fe7c 	bl	8000198 <queue_add>
+					LOC_currentTask->TaskPrivateStates.TaskState= TS_Ready ;
+ 80004a0:	68bb      	ldr	r3, [r7, #8]
+ 80004a2:	2203      	movs	r2, #3
+ 80004a4:	741a      	strb	r2, [r3, #16]
+		for(LOC_u8Counter = 0 ; LOC_u8Counter < OS_Control.CurrentNumberofTasks; LOC_u8Counter++)
+ 80004a6:	7bfb      	ldrb	r3, [r7, #15]
+ 80004a8:	3301      	adds	r3, #1
+ 80004aa:	73fb      	strb	r3, [r7, #15]
+ 80004ac:	4b06      	ldr	r3, [pc, #24]	; (80004c8 <ArefRTOS_voidFirstStageScheduler+0xc4>)
+ 80004ae:	f893 3040 	ldrb.w	r3, [r3, #64]	; 0x40
+ 80004b2:	7bfa      	ldrb	r2, [r7, #15]
+ 80004b4:	429a      	cmp	r2, r3
+ 80004b6:	d3be      	bcc.n	8000436 <ArefRTOS_voidFirstStageScheduler+0x32>
+				{
+					break ;
+				}
+			}
+		}
+}
+ 80004b8:	e000      	b.n	80004bc <ArefRTOS_voidFirstStageScheduler+0xb8>
+					break ;
+ 80004ba:	bf00      	nop
+}
+ 80004bc:	bf00      	nop
+ 80004be:	3710      	adds	r7, #16
+ 80004c0:	46bd      	mov	sp, r7
+ 80004c2:	bd80      	pop	{r7, pc}
+ 80004c4:	20000060 	.word	0x20000060
+ 80004c8:	2000001c 	.word	0x2000001c
+
+080004cc <ArefRTOS_voidSecondStageDispatcher>:
+
+static void ArefRTOS_voidSecondStageDispatcher(){
+ 80004cc:	b580      	push	{r7, lr}
+ 80004ce:	b082      	sub	sp, #8
+ 80004d0:	af00      	add	r7, sp, #0
+
+	// 01.Create some temporary local variables
+	uint8_t LOC_u8QueueSize = queue_size(&Global_QueueOfReadyTasks);
+ 80004d2:	4822      	ldr	r0, [pc, #136]	; (800055c <ArefRTOS_voidSecondStageDispatcher+0x90>)
+ 80004d4:	f7ff feca 	bl	800026c <queue_size>
+ 80004d8:	4603      	mov	r3, r0
+ 80004da:	71fb      	strb	r3, [r7, #7]
+	ArefRTOS_Task *LOC_currentTask = NULL ;
+ 80004dc:	2300      	movs	r3, #0
+ 80004de:	603b      	str	r3, [r7, #0]
+		/*
+		 03.1.Case that the queue is empty and there is no ready tasks and the current task is not suspended
+		 	  Then let the last task that was running, continue running
+		 	  Either this task was a user defined task or the idle task
+		 */
+	if((0 == LOC_u8QueueSize)&&(OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState != TS_Suspend))
+ 80004e0:	79fb      	ldrb	r3, [r7, #7]
+ 80004e2:	2b00      	cmp	r3, #0
+ 80004e4:	d113      	bne.n	800050e <ArefRTOS_voidSecondStageDispatcher+0x42>
+ 80004e6:	4b1e      	ldr	r3, [pc, #120]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 80004e8:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80004ea:	7c1b      	ldrb	r3, [r3, #16]
+ 80004ec:	2b00      	cmp	r3, #0
+ 80004ee:	d00e      	beq.n	800050e <ArefRTOS_voidSecondStageDispatcher+0x42>
+	{
+		OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState = TS_Running;
+ 80004f0:	4b1b      	ldr	r3, [pc, #108]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 80004f2:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80004f4:	2201      	movs	r2, #1
+ 80004f6:	741a      	strb	r2, [r3, #16]
+		queue_add(OS_Control.OS_CurrentTask,&Global_QueueOfReadyTasks);
+ 80004f8:	4b19      	ldr	r3, [pc, #100]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 80004fa:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80004fc:	4917      	ldr	r1, [pc, #92]	; (800055c <ArefRTOS_voidSecondStageDispatcher+0x90>)
+ 80004fe:	4618      	mov	r0, r3
+ 8000500:	f7ff fe4a 	bl	8000198 <queue_add>
+		OS_Control.OS_NextTask = OS_Control.OS_CurrentTask;
+ 8000504:	4b16      	ldr	r3, [pc, #88]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 8000506:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000508:	4a15      	ldr	r2, [pc, #84]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 800050a:	63d3      	str	r3, [r2, #60]	; 0x3c
+				&&(OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState != TS_Suspend)){
+			queue_add(OS_Control.OS_CurrentTask,&Global_QueueOfReadyTasks);
+			OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState = TS_Ready;
+		}
+	}
+}
+ 800050c:	e022      	b.n	8000554 <ArefRTOS_voidSecondStageDispatcher+0x88>
+		queue_get(&LOC_currentTask, &Global_QueueOfReadyTasks);
+ 800050e:	463b      	mov	r3, r7
+ 8000510:	4912      	ldr	r1, [pc, #72]	; (800055c <ArefRTOS_voidSecondStageDispatcher+0x90>)
+ 8000512:	4618      	mov	r0, r3
+ 8000514:	f7ff fe74 	bl	8000200 <queue_get>
+		OS_Control.OS_NextTask = LOC_currentTask ;
+ 8000518:	683b      	ldr	r3, [r7, #0]
+ 800051a:	4a11      	ldr	r2, [pc, #68]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 800051c:	63d3      	str	r3, [r2, #60]	; 0x3c
+		OS_Control.OS_NextTask->TaskPrivateStates.TaskState = TS_Running;
+ 800051e:	4b10      	ldr	r3, [pc, #64]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 8000520:	6bdb      	ldr	r3, [r3, #60]	; 0x3c
+ 8000522:	2201      	movs	r2, #1
+ 8000524:	741a      	strb	r2, [r3, #16]
+		if((OS_Control.OS_CurrentTask->TaskPriority == OS_Control.OS_NextTask->TaskPriority)
+ 8000526:	4b0e      	ldr	r3, [pc, #56]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 8000528:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800052a:	7a1a      	ldrb	r2, [r3, #8]
+ 800052c:	4b0c      	ldr	r3, [pc, #48]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 800052e:	6bdb      	ldr	r3, [r3, #60]	; 0x3c
+ 8000530:	7a1b      	ldrb	r3, [r3, #8]
+ 8000532:	429a      	cmp	r2, r3
+ 8000534:	d10e      	bne.n	8000554 <ArefRTOS_voidSecondStageDispatcher+0x88>
+				&&(OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState != TS_Suspend)){
+ 8000536:	4b0a      	ldr	r3, [pc, #40]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 8000538:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800053a:	7c1b      	ldrb	r3, [r3, #16]
+ 800053c:	2b00      	cmp	r3, #0
+ 800053e:	d009      	beq.n	8000554 <ArefRTOS_voidSecondStageDispatcher+0x88>
+			queue_add(OS_Control.OS_CurrentTask,&Global_QueueOfReadyTasks);
+ 8000540:	4b07      	ldr	r3, [pc, #28]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 8000542:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000544:	4905      	ldr	r1, [pc, #20]	; (800055c <ArefRTOS_voidSecondStageDispatcher+0x90>)
+ 8000546:	4618      	mov	r0, r3
+ 8000548:	f7ff fe26 	bl	8000198 <queue_add>
+			OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState = TS_Ready;
+ 800054c:	4b04      	ldr	r3, [pc, #16]	; (8000560 <ArefRTOS_voidSecondStageDispatcher+0x94>)
+ 800054e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000550:	2203      	movs	r2, #3
+ 8000552:	741a      	strb	r2, [r3, #16]
+}
+ 8000554:	bf00      	nop
+ 8000556:	3708      	adds	r7, #8
+ 8000558:	46bd      	mov	sp, r7
+ 800055a:	bd80      	pop	{r7, pc}
+ 800055c:	20000060 	.word	0x20000060
+ 8000560:	2000001c 	.word	0x2000001c
+
+08000564 <ArefRTOS_voidCreateTask>:
+* 														   *
+*			      USER FUNCTIONS DEFINITIONS               *
+*														   *
+************************************************************/
+ArefRTOS_ErrorID ArefRTOS_voidCreateTask(ArefRTOS_Task* pTask)
+{
+ 8000564:	b480      	push	{r7}
+ 8000566:	b087      	sub	sp, #28
+ 8000568:	af00      	add	r7, sp, #0
+ 800056a:	6078      	str	r0, [r7, #4]
+	ArefRTOS_ErrorID	LOC_ArefRTOS_ErrorID =	NoError ;
+ 800056c:	2300      	movs	r3, #0
+ 800056e:	75fb      	strb	r3, [r7, #23]
+
+	// 01.Set Start of Task Stack by HW Stack Locator in OS_Control
+	pTask->TaskPrivateStates._S_PSP_Task	=	OS_Control.HW_Stack_Locator	;
+ 8000570:	4b37      	ldr	r3, [pc, #220]	; (8000650 <ArefRTOS_voidCreateTask+0xec>)
+ 8000572:	689a      	ldr	r2, [r3, #8]
+ 8000574:	687b      	ldr	r3, [r7, #4]
+ 8000576:	615a      	str	r2, [r3, #20]
+
+	// 02.Set End of Stack End = Start - (Stack Size of Task + MIN_STACK_SIZE due to TCB)
+	pTask->TaskPrivateStates._E_PSP_Task	=	pTask->TaskPrivateStates._S_PSP_Task - (pTask->TaskStackSize + MIN_STACK_SIZE);
+ 8000578:	687b      	ldr	r3, [r7, #4]
+ 800057a:	695a      	ldr	r2, [r3, #20]
+ 800057c:	687b      	ldr	r3, [r7, #4]
+ 800057e:	685b      	ldr	r3, [r3, #4]
+ 8000580:	1ad3      	subs	r3, r2, r3
+ 8000582:	f1a3 0284 	sub.w	r2, r3, #132	; 0x84
+ 8000586:	687b      	ldr	r3, [r7, #4]
+ 8000588:	619a      	str	r2, [r3, #24]
+
+	// 03.Check for Stack Overflow
+	CHECK_STACK_OVF(pTask->TaskPrivateStates._E_PSP_Task);
+ 800058a:	687b      	ldr	r3, [r7, #4]
+ 800058c:	699b      	ldr	r3, [r3, #24]
+ 800058e:	4a31      	ldr	r2, [pc, #196]	; (8000654 <ArefRTOS_voidCreateTask+0xf0>)
+ 8000590:	4293      	cmp	r3, r2
+ 8000592:	d201      	bcs.n	8000598 <ArefRTOS_voidCreateTask+0x34>
+ 8000594:	2301      	movs	r3, #1
+ 8000596:	75fb      	strb	r3, [r7, #23]
+
+	// 04.Align 4 Bytes as safety
+	OS_Control.HW_Stack_Locator = pTask->TaskPrivateStates._E_PSP_Task - SAFETY_SPACE_BETWEEN_STACKS	;
+ 8000598:	687b      	ldr	r3, [r7, #4]
+ 800059a:	699b      	ldr	r3, [r3, #24]
+ 800059c:	3b04      	subs	r3, #4
+ 800059e:	4a2c      	ldr	r2, [pc, #176]	; (8000650 <ArefRTOS_voidCreateTask+0xec>)
+ 80005a0:	6093      	str	r3, [r2, #8]
+ 80005a2:	687b      	ldr	r3, [r7, #4]
+ 80005a4:	613b      	str	r3, [r7, #16]
+	uint8_t LOC_u8Counter = 0 ;
+ 80005a6:	2300      	movs	r3, #0
+ 80005a8:	73fb      	strb	r3, [r7, #15]
+	pTask->TaskPrivateStates.pCurrentPSP 	= (uint32_t *)pTask->TaskPrivateStates._S_PSP_Task	;
+ 80005aa:	693b      	ldr	r3, [r7, #16]
+ 80005ac:	695b      	ldr	r3, [r3, #20]
+ 80005ae:	461a      	mov	r2, r3
+ 80005b0:	693b      	ldr	r3, [r7, #16]
+ 80005b2:	61da      	str	r2, [r3, #28]
+	*(pTask->TaskPrivateStates.pCurrentPSP) =	RST_xPSR	;
+ 80005b4:	693b      	ldr	r3, [r7, #16]
+ 80005b6:	69db      	ldr	r3, [r3, #28]
+ 80005b8:	f04f 7280 	mov.w	r2, #16777216	; 0x1000000
+ 80005bc:	601a      	str	r2, [r3, #0]
+	DECREASE_SP_POSITION(pTask,1) ;
+ 80005be:	693b      	ldr	r3, [r7, #16]
+ 80005c0:	69db      	ldr	r3, [r3, #28]
+ 80005c2:	1f1a      	subs	r2, r3, #4
+ 80005c4:	693b      	ldr	r3, [r7, #16]
+ 80005c6:	61da      	str	r2, [r3, #28]
+	*(pTask->TaskPrivateStates.pCurrentPSP) = (uint32_t)pTask->pTaskFcn ;
+ 80005c8:	693b      	ldr	r3, [r7, #16]
+ 80005ca:	68da      	ldr	r2, [r3, #12]
+ 80005cc:	693b      	ldr	r3, [r7, #16]
+ 80005ce:	69db      	ldr	r3, [r3, #28]
+ 80005d0:	601a      	str	r2, [r3, #0]
+	DECREASE_SP_POSITION(pTask,1) ;
+ 80005d2:	693b      	ldr	r3, [r7, #16]
+ 80005d4:	69db      	ldr	r3, [r3, #28]
+ 80005d6:	1f1a      	subs	r2, r3, #4
+ 80005d8:	693b      	ldr	r3, [r7, #16]
+ 80005da:	61da      	str	r2, [r3, #28]
+	*(pTask->TaskPrivateStates.pCurrentPSP) = RST_LR	;
+ 80005dc:	693b      	ldr	r3, [r7, #16]
+ 80005de:	69db      	ldr	r3, [r3, #28]
+ 80005e0:	f06f 0202 	mvn.w	r2, #2
+ 80005e4:	601a      	str	r2, [r3, #0]
+	for(LOC_u8Counter = 0 ; LOC_u8Counter < 13 ; LOC_u8Counter++ )
+ 80005e6:	2300      	movs	r3, #0
+ 80005e8:	73fb      	strb	r3, [r7, #15]
+ 80005ea:	e00b      	b.n	8000604 <ArefRTOS_voidCreateTask+0xa0>
+		DECREASE_SP_POSITION(pTask,1) ;
+ 80005ec:	693b      	ldr	r3, [r7, #16]
+ 80005ee:	69db      	ldr	r3, [r3, #28]
+ 80005f0:	1f1a      	subs	r2, r3, #4
+ 80005f2:	693b      	ldr	r3, [r7, #16]
+ 80005f4:	61da      	str	r2, [r3, #28]
+		*(pTask->TaskPrivateStates.pCurrentPSP) = INIT_VAL_FOR_REG ;
+ 80005f6:	693b      	ldr	r3, [r7, #16]
+ 80005f8:	69db      	ldr	r3, [r3, #28]
+ 80005fa:	2200      	movs	r2, #0
+ 80005fc:	601a      	str	r2, [r3, #0]
+	for(LOC_u8Counter = 0 ; LOC_u8Counter < 13 ; LOC_u8Counter++ )
+ 80005fe:	7bfb      	ldrb	r3, [r7, #15]
+ 8000600:	3301      	adds	r3, #1
+ 8000602:	73fb      	strb	r3, [r7, #15]
+ 8000604:	7bfb      	ldrb	r3, [r7, #15]
+ 8000606:	2b0c      	cmp	r3, #12
+ 8000608:	d9f0      	bls.n	80005ec <ArefRTOS_voidCreateTask+0x88>
+}
+ 800060a:	bf00      	nop
+
+	// 05.Initialize Stack Area
+	ArefRTOS_voidDesignTaskStack(pTask);
+
+	// 06.Check Current Number of Tasks comparing between number of defined tasks
+	if(OS_Control.CurrentNumberofTasks <= MAX_NUM_OF_TASKS)
+ 800060c:	4b10      	ldr	r3, [pc, #64]	; (8000650 <ArefRTOS_voidCreateTask+0xec>)
+ 800060e:	f893 3040 	ldrb.w	r3, [r3, #64]	; 0x40
+ 8000612:	2b0a      	cmp	r3, #10
+ 8000614:	d813      	bhi.n	800063e <ArefRTOS_voidCreateTask+0xda>
+	{
+		// 6.1.Update Scheduler Table
+		OS_Control.OS_SchedulerTable[OS_Control.CurrentNumberofTasks]= pTask ;
+ 8000616:	4b0e      	ldr	r3, [pc, #56]	; (8000650 <ArefRTOS_voidCreateTask+0xec>)
+ 8000618:	f893 3040 	ldrb.w	r3, [r3, #64]	; 0x40
+ 800061c:	490c      	ldr	r1, [pc, #48]	; (8000650 <ArefRTOS_voidCreateTask+0xec>)
+ 800061e:	3304      	adds	r3, #4
+ 8000620:	687a      	ldr	r2, [r7, #4]
+ 8000622:	f841 2023 	str.w	r2, [r1, r3, lsl #2]
+		OS_Control.CurrentNumberofTasks++ ;
+ 8000626:	4b0a      	ldr	r3, [pc, #40]	; (8000650 <ArefRTOS_voidCreateTask+0xec>)
+ 8000628:	f893 3040 	ldrb.w	r3, [r3, #64]	; 0x40
+ 800062c:	3301      	adds	r3, #1
+ 800062e:	b2da      	uxtb	r2, r3
+ 8000630:	4b07      	ldr	r3, [pc, #28]	; (8000650 <ArefRTOS_voidCreateTask+0xec>)
+ 8000632:	f883 2040 	strb.w	r2, [r3, #64]	; 0x40
+
+		// 6.2.Update Task State
+		pTask->TaskPrivateStates.TaskState = TS_Suspend ;
+ 8000636:	687b      	ldr	r3, [r7, #4]
+ 8000638:	2200      	movs	r2, #0
+ 800063a:	741a      	strb	r2, [r3, #16]
+ 800063c:	e001      	b.n	8000642 <ArefRTOS_voidCreateTask+0xde>
+	}
+	else
+	{
+		// Exceed Max Number of Tasks Defined by user
+		LOC_ArefRTOS_ErrorID =	ExceedMaxNumberOfTasks ;
+ 800063e:	2303      	movs	r3, #3
+ 8000640:	75fb      	strb	r3, [r7, #23]
+	}
+
+	return LOC_ArefRTOS_ErrorID;
+ 8000642:	7dfb      	ldrb	r3, [r7, #23]
+}
+ 8000644:	4618      	mov	r0, r3
+ 8000646:	371c      	adds	r7, #28
+ 8000648:	46bd      	mov	sp, r7
+ 800064a:	bc80      	pop	{r7}
+ 800064c:	4770      	bx	lr
+ 800064e:	bf00      	nop
+ 8000650:	2000001c 	.word	0x2000001c
+ 8000654:	20000340 	.word	0x20000340
+
+08000658 <ArefRTOS_voidInit>:
+
+ArefRTOS_ErrorID ArefRTOS_voidInit(void)
+{
+ 8000658:	b580      	push	{r7, lr}
+ 800065a:	b082      	sub	sp, #8
+ 800065c:	af00      	add	r7, sp, #0
+	ArefRTOS_ErrorID	LOC_ArefRTOS_ErrorID =	NoError ;
+ 800065e:	2300      	movs	r3, #0
+ 8000660:	71fb      	strb	r3, [r7, #7]
+
+	// 01.HW initialize
+	ArefRTOS_voidHardwareInit();
+ 8000662:	f7ff fe29 	bl	80002b8 <ArefRTOS_voidHardwareInit>
+
+	// 02.OS Start With Suspend State
+	OS_Control.OS_State	=	OS_Suspend ;
+ 8000666:	4b14      	ldr	r3, [pc, #80]	; (80006b8 <ArefRTOS_voidInit+0x60>)
+ 8000668:	2200      	movs	r2, #0
+ 800066a:	731a      	strb	r2, [r3, #12]
+
+	// 03.Specify Main Stack Area for OS
+	LOC_ArefRTOS_ErrorID = ArefRTOS_staticMainStack();
+ 800066c:	f7ff fe46 	bl	80002fc <ArefRTOS_staticMainStack>
+ 8000670:	4603      	mov	r3, r0
+ 8000672:	71fb      	strb	r3, [r7, #7]
+
+	// 04.Initialize Task Queue
+	LOC_ArefRTOS_ErrorID = queue_create(&Global_QueueOfReadyTasks)	;
+ 8000674:	4811      	ldr	r0, [pc, #68]	; (80006bc <ArefRTOS_voidInit+0x64>)
+ 8000676:	f7ff fd7b 	bl	8000170 <queue_create>
+ 800067a:	4603      	mov	r3, r0
+ 800067c:	71fb      	strb	r3, [r7, #7]
+	if(LOC_ArefRTOS_ErrorID != (ArefRTOS_ErrorID)QUEUE_NO_ERROR)
+ 800067e:	79fb      	ldrb	r3, [r7, #7]
+ 8000680:	2b00      	cmp	r3, #0
+ 8000682:	d001      	beq.n	8000688 <ArefRTOS_voidInit+0x30>
+		LOC_ArefRTOS_ErrorID = ErrorInQueueInit	;
+ 8000684:	2302      	movs	r3, #2
+ 8000686:	71fb      	strb	r3, [r7, #7]
+	Global_IdleTask.TaskID 			= 0 ;
+ 8000688:	4b0d      	ldr	r3, [pc, #52]	; (80006c0 <ArefRTOS_voidInit+0x68>)
+ 800068a:	2200      	movs	r2, #0
+ 800068c:	701a      	strb	r2, [r3, #0]
+	Global_IdleTask.TaskPriority	=	255	; // Take care that highest number is lowest priority
+ 800068e:	4b0c      	ldr	r3, [pc, #48]	; (80006c0 <ArefRTOS_voidInit+0x68>)
+ 8000690:	22ff      	movs	r2, #255	; 0xff
+ 8000692:	721a      	strb	r2, [r3, #8]
+	Global_IdleTask.TaskStackSize 	= 100;
+ 8000694:	4b0a      	ldr	r3, [pc, #40]	; (80006c0 <ArefRTOS_voidInit+0x68>)
+ 8000696:	2264      	movs	r2, #100	; 0x64
+ 8000698:	605a      	str	r2, [r3, #4]
+	Global_IdleTask.pTaskFcn 		= ArefRTOS_voidIdleTask;
+ 800069a:	4b09      	ldr	r3, [pc, #36]	; (80006c0 <ArefRTOS_voidInit+0x68>)
+ 800069c:	4a09      	ldr	r2, [pc, #36]	; (80006c4 <ArefRTOS_voidInit+0x6c>)
+ 800069e:	60da      	str	r2, [r3, #12]
+}
+ 80006a0:	bf00      	nop
+
+	// 05.Initialize Idle Task
+	ArefRTOS_voidIdleTaskInit();
+	LOC_ArefRTOS_ErrorID = ArefRTOS_voidCreateTask(&Global_IdleTask);
+ 80006a2:	4807      	ldr	r0, [pc, #28]	; (80006c0 <ArefRTOS_voidInit+0x68>)
+ 80006a4:	f7ff ff5e 	bl	8000564 <ArefRTOS_voidCreateTask>
+ 80006a8:	4603      	mov	r3, r0
+ 80006aa:	71fb      	strb	r3, [r7, #7]
+
+	return LOC_ArefRTOS_ErrorID ;
+ 80006ac:	79fb      	ldrb	r3, [r7, #7]
+}
+ 80006ae:	4618      	mov	r0, r3
+ 80006b0:	3708      	adds	r7, #8
+ 80006b2:	46bd      	mov	sp, r7
+ 80006b4:	bd80      	pop	{r7, pc}
+ 80006b6:	bf00      	nop
+ 80006b8:	2000001c 	.word	0x2000001c
+ 80006bc:	20000060 	.word	0x20000060
+ 80006c0:	20000094 	.word	0x20000094
+ 80006c4:	08000349 	.word	0x08000349
+
+080006c8 <ArefRTOS_voidActivateTask>:
+
+ArefRTOS_ErrorID ArefRTOS_voidActivateTask(ArefRTOS_Task* pTask)
+{
+ 80006c8:	b580      	push	{r7, lr}
+ 80006ca:	b084      	sub	sp, #16
+ 80006cc:	af00      	add	r7, sp, #0
+ 80006ce:	6078      	str	r0, [r7, #4]
+	ArefRTOS_ErrorID	LOC_ArefRTOS_ErrorID =	NULL_ARGs ;
+ 80006d0:	2304      	movs	r3, #4
+ 80006d2:	73fb      	strb	r3, [r7, #15]
+	if(pTask != NULL)
+ 80006d4:	687b      	ldr	r3, [r7, #4]
+ 80006d6:	2b00      	cmp	r3, #0
+ 80006d8:	d008      	beq.n	80006ec <ArefRTOS_voidActivateTask+0x24>
+	{
+		LOC_ArefRTOS_ErrorID =	NoError  ;
+ 80006da:	2300      	movs	r3, #0
+ 80006dc:	73fb      	strb	r3, [r7, #15]
+		// 01.Add It in Waiting State
+		pTask->TaskPrivateStates.TaskState = TS_Waiting;
+ 80006de:	687b      	ldr	r3, [r7, #4]
+ 80006e0:	2202      	movs	r2, #2
+ 80006e2:	741a      	strb	r2, [r3, #16]
+		// 02.Call Service Called SVC_ID_ACTIVE_TASk
+		ArefRTOS_voidCallService((uint8_t)ArefRTOS_SVC_CALL_ACTIVATE_TASK);
+ 80006e4:	2000      	movs	r0, #0
+ 80006e6:	f7ff fdcd 	bl	8000284 <ArefRTOS_voidCallService>
+ 80006ea:	e001      	b.n	80006f0 <ArefRTOS_voidActivateTask+0x28>
+	}
+	else
+	{
+		LOC_ArefRTOS_ErrorID =	NULL_ARGs ;
+ 80006ec:	2304      	movs	r3, #4
+ 80006ee:	73fb      	strb	r3, [r7, #15]
+	}
+
+	return LOC_ArefRTOS_ErrorID ;
+ 80006f0:	7bfb      	ldrb	r3, [r7, #15]
+}
+ 80006f2:	4618      	mov	r0, r3
+ 80006f4:	3710      	adds	r7, #16
+ 80006f6:	46bd      	mov	sp, r7
+ 80006f8:	bd80      	pop	{r7, pc}
+	...
+
+080006fc <ArefRTOS_voidStartScheduler>:
+
+	return LOC_ArefRTOS_ErrorID ;
+}
+
+ArefRTOS_ErrorID ArefRTOS_voidStartScheduler(void)
+{
+ 80006fc:	b580      	push	{r7, lr}
+ 80006fe:	b082      	sub	sp, #8
+ 8000700:	af00      	add	r7, sp, #0
+	ArefRTOS_ErrorID	LOC_ArefRTOS_ErrorID =	NoError ;
+ 8000702:	2300      	movs	r3, #0
+ 8000704:	71fb      	strb	r3, [r7, #7]
+
+	// 01.Set OS Operating Mode
+	OS_Control.OS_State = OS_Running ;
+ 8000706:	4b16      	ldr	r3, [pc, #88]	; (8000760 <ArefRTOS_voidStartScheduler+0x64>)
+ 8000708:	2201      	movs	r2, #1
+ 800070a:	731a      	strb	r2, [r3, #12]
+	// 02.Idle task as an Initial Task
+	OS_Control.OS_CurrentTask = &Global_IdleTask ;
+ 800070c:	4b14      	ldr	r3, [pc, #80]	; (8000760 <ArefRTOS_voidStartScheduler+0x64>)
+ 800070e:	4a15      	ldr	r2, [pc, #84]	; (8000764 <ArefRTOS_voidStartScheduler+0x68>)
+ 8000710:	639a      	str	r2, [r3, #56]	; 0x38
+	// 03.Set the system PSP to the current process(idle process) psp
+	PSRC_voidSetPSP((uint32_t)Global_IdleTask.TaskPrivateStates.pCurrentPSP);
+ 8000712:	4b14      	ldr	r3, [pc, #80]	; (8000764 <ArefRTOS_voidStartScheduler+0x68>)
+ 8000714:	69db      	ldr	r3, [r3, #28]
+ 8000716:	603b      	str	r3, [r7, #0]
+ * @note   Need Privileged  Access Level.
+ * @param  copy_u32topOfPSP: the address of the top of process stack
+ * @return void
+ */
+FORCE_INLINE void PSRC_voidSetPSP(uint32_t copy_u32topOfPSP){
+	__asm("MOV r0,%[input0] \n\t"
+ 8000718:	683b      	ldr	r3, [r7, #0]
+ 800071a:	4618      	mov	r0, r3
+ 800071c:	f380 8809 	msr	PSP, r0
+		  "MSR PSP,r0"
+		  :
+		  :[input0]"r"(copy_u32topOfPSP));
+}
+ 8000720:	bf00      	nop
+	// 04.Activate the idle Task
+	LOC_ArefRTOS_ErrorID =ArefRTOS_voidActivateTask(&Global_IdleTask);
+ 8000722:	4810      	ldr	r0, [pc, #64]	; (8000764 <ArefRTOS_voidStartScheduler+0x68>)
+ 8000724:	f7ff ffd0 	bl	80006c8 <ArefRTOS_voidActivateTask>
+ 8000728:	4603      	mov	r3, r0
+ 800072a:	71fb      	strb	r3, [r7, #7]
+	// 05.Start the System Ticker
+	ArefRTOS_voidStartTicker();
+ 800072c:	f7ff fdca 	bl	80002c4 <ArefRTOS_voidStartTicker>
+	__asm("MRS r0,CONTROL \n\t"
+ 8000730:	f3ef 8014 	mrs	r0, CONTROL
+ 8000734:	f04f 0102 	mov.w	r1, #2
+ 8000738:	ea40 0001 	orr.w	r0, r0, r1
+ 800073c:	f380 8814 	msr	CONTROL, r0
+}
+ 8000740:	bf00      	nop
+	// 06.Switch the system SP to point to the PSP
+	PSRC_voidSetWorkingStack_PSP();
+	// 07.Switch the Access Level to Unprivileged Mode
+	PSRC_voidSetAccessLevel_UNPRIVILEGED();
+ 8000742:	f3ef 8314 	mrs	r3, CONTROL
+ 8000746:	f043 0301 	orr.w	r3, r3, #1
+ 800074a:	f383 8814 	msr	CONTROL, r3
+	// 08.Call Entry Point of Task
+	OS_Control.OS_CurrentTask->pTaskFcn();
+ 800074e:	4b04      	ldr	r3, [pc, #16]	; (8000760 <ArefRTOS_voidStartScheduler+0x64>)
+ 8000750:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000752:	68db      	ldr	r3, [r3, #12]
+ 8000754:	4798      	blx	r3
+
+	return LOC_ArefRTOS_ErrorID ;
+ 8000756:	79fb      	ldrb	r3, [r7, #7]
+
+}
+ 8000758:	4618      	mov	r0, r3
+ 800075a:	3708      	adds	r7, #8
+ 800075c:	46bd      	mov	sp, r7
+ 800075e:	bd80      	pop	{r7, pc}
+ 8000760:	2000001c 	.word	0x2000001c
+ 8000764:	20000094 	.word	0x20000094
+
+08000768 <ArefRTOS_SVC_CALL>:
+* 																			  *
+* 					HANDLER MODE FUNCTIONS DEFINITION						  *
+* 																			  *
+*******************************************************************************/
+void ArefRTOS_SVC_CALL( uint32_t *svc_args )
+{
+ 8000768:	b580      	push	{r7, lr}
+ 800076a:	b084      	sub	sp, #16
+ 800076c:	af00      	add	r7, sp, #0
+ 800076e:	6078      	str	r0, [r7, #4]
+  * R2
+  * R1
+  * R0
+  * First argument (R0) is svc_args[0]
+  */
+  uint8_t SVCParameter = *((uint8_t *)(((uint8_t*)svc_args[6])-2)) ;
+ 8000770:	687b      	ldr	r3, [r7, #4]
+ 8000772:	3318      	adds	r3, #24
+ 8000774:	681b      	ldr	r3, [r3, #0]
+ 8000776:	3b02      	subs	r3, #2
+ 8000778:	781b      	ldrb	r3, [r3, #0]
+ 800077a:	73fb      	strb	r3, [r7, #15]
+
+  switch(SVCParameter)
+ 800077c:	7bfb      	ldrb	r3, [r7, #15]
+ 800077e:	2b01      	cmp	r3, #1
+ 8000780:	dc02      	bgt.n	8000788 <ArefRTOS_SVC_CALL+0x20>
+ 8000782:	2b00      	cmp	r3, #0
+ 8000784:	da03      	bge.n	800078e <ArefRTOS_SVC_CALL+0x26>
+    	break;
+    case ArefRTOS_SVC_CALL_DELAY_TASK:
+    	// 01. Calling the Scheduler to decide which process to execute next, based on priority
+    		ArefRTOS_voidFirstStageScheduler();
+    default:    /* unknown SVC */
+      break;
+ 8000786:	e018      	b.n	80007ba <ArefRTOS_SVC_CALL+0x52>
+  switch(SVCParameter)
+ 8000788:	2b02      	cmp	r3, #2
+ 800078a:	d012      	beq.n	80007b2 <ArefRTOS_SVC_CALL+0x4a>
+      break;
+ 800078c:	e015      	b.n	80007ba <ArefRTOS_SVC_CALL+0x52>
+    		ArefRTOS_voidFirstStageScheduler();
+ 800078e:	f7ff fe39 	bl	8000404 <ArefRTOS_voidFirstStageScheduler>
+    		if(OS_Control.OS_State == OS_Running)
+ 8000792:	4b0c      	ldr	r3, [pc, #48]	; (80007c4 <ArefRTOS_SVC_CALL+0x5c>)
+ 8000794:	7b1b      	ldrb	r3, [r3, #12]
+ 8000796:	2b01      	cmp	r3, #1
+ 8000798:	d10e      	bne.n	80007b8 <ArefRTOS_SVC_CALL+0x50>
+    			if(OS_Control.OS_CurrentTask->TaskID != Global_IdleTask.TaskID )
+ 800079a:	4b0a      	ldr	r3, [pc, #40]	; (80007c4 <ArefRTOS_SVC_CALL+0x5c>)
+ 800079c:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800079e:	781a      	ldrb	r2, [r3, #0]
+ 80007a0:	4b09      	ldr	r3, [pc, #36]	; (80007c8 <ArefRTOS_SVC_CALL+0x60>)
+ 80007a2:	781b      	ldrb	r3, [r3, #0]
+ 80007a4:	429a      	cmp	r2, r3
+ 80007a6:	d007      	beq.n	80007b8 <ArefRTOS_SVC_CALL+0x50>
+    				ArefRTOS_voidSecondStageDispatcher();
+ 80007a8:	f7ff fe90 	bl	80004cc <ArefRTOS_voidSecondStageDispatcher>
+    				SCB_voidTrigPendSV();
+ 80007ac:	f000 f936 	bl	8000a1c <SCB_voidTrigPendSV>
+    	break;
+ 80007b0:	e002      	b.n	80007b8 <ArefRTOS_SVC_CALL+0x50>
+    		ArefRTOS_voidFirstStageScheduler();
+ 80007b2:	f7ff fe27 	bl	8000404 <ArefRTOS_voidFirstStageScheduler>
+      break;
+ 80007b6:	e000      	b.n	80007ba <ArefRTOS_SVC_CALL+0x52>
+    	break;
+ 80007b8:	bf00      	nop
+  }
+}
+ 80007ba:	bf00      	nop
+ 80007bc:	3710      	adds	r7, #16
+ 80007be:	46bd      	mov	sp, r7
+ 80007c0:	bd80      	pop	{r7, pc}
+ 80007c2:	bf00      	nop
+ 80007c4:	2000001c 	.word	0x2000001c
+ 80007c8:	20000094 	.word	0x20000094
+
+080007cc <PendSV_Handler>:
+* 					IRQ HANDLER FUNCTIONS DEFINITION						  *
+* 																			  *
+*******************************************************************************/
+FORCE_NAKED void PendSV_Handler(void){
+	/**************************************	Enter Critical Section	*************************************/
+		  __asm volatile ("CPSID i");
+ 80007cc:	b672      	cpsid	i
+ * @param  void
+ * @return U32 --> Current Process Stack Pointer address
+ */
+FORCE_INLINE uint32_t PSRC_voidGetPSP(void){
+	uint32_t Loc_u32TopOfStack =  0 ;
+	__asm("MRS r0,PSP \n\t"
+ 80007ce:	f3ef 8009 	mrs	r0, PSP
+ 80007d2:	4603      	mov	r3, r0
+ 80007d4:	461c      	mov	r4, r3
+		  "MOV %[output0],r0"
+		  :[output0]"=r"(Loc_u32TopOfStack));
+	return (Loc_u32TopOfStack);
+ 80007d6:	4622      	mov	r2, r4
+		/*
+		 	01.Save Current Context of current task
+			xPSR,PC,LR,R12,R3,R2,R1,R0 automatically Pushed
+		 */
+		OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP = (uint32_t*)PSRC_voidGetPSP();
+ 80007d8:	4b6c      	ldr	r3, [pc, #432]	; (800098c <PendSV_Handler+0x1c0>)
+ 80007da:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80007dc:	61da      	str	r2, [r3, #28]
+
+		/*
+		 	02.Save Rest of registers of current task
+			R11,R10,R9,R8,R7,R6,R5,R4 manually Pushed
+		 */
+		DECREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// Decrease Current SP by one
+ 80007de:	4b6b      	ldr	r3, [pc, #428]	; (800098c <PendSV_Handler+0x1c0>)
+ 80007e0:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80007e2:	69da      	ldr	r2, [r3, #28]
+ 80007e4:	4b69      	ldr	r3, [pc, #420]	; (800098c <PendSV_Handler+0x1c0>)
+ 80007e6:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80007e8:	3a04      	subs	r2, #4
+ 80007ea:	61da      	str	r2, [r3, #28]
+		__asm volatile ("MOV %0,R4	" : "=r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 80007ec:	4b67      	ldr	r3, [pc, #412]	; (800098c <PendSV_Handler+0x1c0>)
+ 80007ee:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80007f0:	69db      	ldr	r3, [r3, #28]
+ 80007f2:	4622      	mov	r2, r4
+ 80007f4:	601a      	str	r2, [r3, #0]
+
+		DECREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// Decrease Current SP by one
+ 80007f6:	4b65      	ldr	r3, [pc, #404]	; (800098c <PendSV_Handler+0x1c0>)
+ 80007f8:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80007fa:	69da      	ldr	r2, [r3, #28]
+ 80007fc:	4b63      	ldr	r3, [pc, #396]	; (800098c <PendSV_Handler+0x1c0>)
+ 80007fe:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000800:	3a04      	subs	r2, #4
+ 8000802:	61da      	str	r2, [r3, #28]
+		__asm volatile ("MOV %0,R5	" : "=r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 8000804:	4b61      	ldr	r3, [pc, #388]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000806:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000808:	69db      	ldr	r3, [r3, #28]
+ 800080a:	462a      	mov	r2, r5
+ 800080c:	601a      	str	r2, [r3, #0]
+
+		DECREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// Decrease Current SP by one
+ 800080e:	4b5f      	ldr	r3, [pc, #380]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000810:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000812:	69da      	ldr	r2, [r3, #28]
+ 8000814:	4b5d      	ldr	r3, [pc, #372]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000816:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000818:	3a04      	subs	r2, #4
+ 800081a:	61da      	str	r2, [r3, #28]
+		__asm volatile ("MOV %0,R6	" : "=r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 800081c:	4b5b      	ldr	r3, [pc, #364]	; (800098c <PendSV_Handler+0x1c0>)
+ 800081e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000820:	69db      	ldr	r3, [r3, #28]
+ 8000822:	4632      	mov	r2, r6
+ 8000824:	601a      	str	r2, [r3, #0]
+
+		DECREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// Decrease Current SP by one
+ 8000826:	4b59      	ldr	r3, [pc, #356]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000828:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800082a:	69da      	ldr	r2, [r3, #28]
+ 800082c:	4b57      	ldr	r3, [pc, #348]	; (800098c <PendSV_Handler+0x1c0>)
+ 800082e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000830:	3a04      	subs	r2, #4
+ 8000832:	61da      	str	r2, [r3, #28]
+		__asm volatile ("MOV %0,R7	" : "=r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 8000834:	4b55      	ldr	r3, [pc, #340]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000836:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000838:	69db      	ldr	r3, [r3, #28]
+ 800083a:	463a      	mov	r2, r7
+ 800083c:	601a      	str	r2, [r3, #0]
+
+		DECREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// Decrease Current SP by one
+ 800083e:	4b53      	ldr	r3, [pc, #332]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000840:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000842:	69da      	ldr	r2, [r3, #28]
+ 8000844:	4b51      	ldr	r3, [pc, #324]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000846:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000848:	3a04      	subs	r2, #4
+ 800084a:	61da      	str	r2, [r3, #28]
+		__asm volatile ("MOV %0,R8	" : "=r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 800084c:	4b4f      	ldr	r3, [pc, #316]	; (800098c <PendSV_Handler+0x1c0>)
+ 800084e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000850:	69db      	ldr	r3, [r3, #28]
+ 8000852:	4642      	mov	r2, r8
+ 8000854:	601a      	str	r2, [r3, #0]
+
+		DECREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// Decrease Current SP by one
+ 8000856:	4b4d      	ldr	r3, [pc, #308]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000858:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800085a:	69da      	ldr	r2, [r3, #28]
+ 800085c:	4b4b      	ldr	r3, [pc, #300]	; (800098c <PendSV_Handler+0x1c0>)
+ 800085e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000860:	3a04      	subs	r2, #4
+ 8000862:	61da      	str	r2, [r3, #28]
+		__asm volatile ("MOV %0,R9	" : "=r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 8000864:	4b49      	ldr	r3, [pc, #292]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000866:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000868:	69db      	ldr	r3, [r3, #28]
+ 800086a:	464a      	mov	r2, r9
+ 800086c:	601a      	str	r2, [r3, #0]
+
+		DECREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// Decrease Current SP by one
+ 800086e:	4b47      	ldr	r3, [pc, #284]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000870:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000872:	69da      	ldr	r2, [r3, #28]
+ 8000874:	4b45      	ldr	r3, [pc, #276]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000876:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000878:	3a04      	subs	r2, #4
+ 800087a:	61da      	str	r2, [r3, #28]
+		__asm volatile ("MOV %0,R10	" : "=r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 800087c:	4b43      	ldr	r3, [pc, #268]	; (800098c <PendSV_Handler+0x1c0>)
+ 800087e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000880:	69db      	ldr	r3, [r3, #28]
+ 8000882:	4652      	mov	r2, sl
+ 8000884:	601a      	str	r2, [r3, #0]
+
+		DECREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// Decrease Current SP by one
+ 8000886:	4b41      	ldr	r3, [pc, #260]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000888:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800088a:	69da      	ldr	r2, [r3, #28]
+ 800088c:	4b3f      	ldr	r3, [pc, #252]	; (800098c <PendSV_Handler+0x1c0>)
+ 800088e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000890:	3a04      	subs	r2, #4
+ 8000892:	61da      	str	r2, [r3, #28]
+		__asm volatile ("MOV %0,R11	" : "=r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 8000894:	4b3d      	ldr	r3, [pc, #244]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000896:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000898:	69db      	ldr	r3, [r3, #28]
+ 800089a:	465a      	mov	r2, fp
+ 800089c:	601a      	str	r2, [r3, #0]
+
+
+		/*
+		 	03.Switch the control to the next task process stack
+		 */
+		if(OS_Control.OS_NextTask != NULL)
+ 800089e:	4b3b      	ldr	r3, [pc, #236]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008a0:	6bdb      	ldr	r3, [r3, #60]	; 0x3c
+ 80008a2:	2b00      	cmp	r3, #0
+ 80008a4:	d006      	beq.n	80008b4 <PendSV_Handler+0xe8>
+		{
+			OS_Control.OS_CurrentTask = OS_Control.OS_NextTask;
+ 80008a6:	4b39      	ldr	r3, [pc, #228]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008a8:	6bdb      	ldr	r3, [r3, #60]	; 0x3c
+ 80008aa:	4a38      	ldr	r2, [pc, #224]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008ac:	6393      	str	r3, [r2, #56]	; 0x38
+			OS_Control.OS_NextTask = NULL ;
+ 80008ae:	4b37      	ldr	r3, [pc, #220]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008b0:	2200      	movs	r2, #0
+ 80008b2:	63da      	str	r2, [r3, #60]	; 0x3c
+
+		/*
+		 	04.Restore the Rest of registers from the new task process stack
+			R11,R10,R9,R8,R7,R6,R5,R4 manually Poped
+		 */
+		__asm volatile ("MOV R11,%0" : :"r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 80008b4:	4b35      	ldr	r3, [pc, #212]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008b6:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008b8:	69db      	ldr	r3, [r3, #28]
+ 80008ba:	681b      	ldr	r3, [r3, #0]
+ 80008bc:	469b      	mov	fp, r3
+		INCREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// increase Current SP by one
+ 80008be:	4b33      	ldr	r3, [pc, #204]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008c0:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008c2:	69da      	ldr	r2, [r3, #28]
+ 80008c4:	4b31      	ldr	r3, [pc, #196]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008c6:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008c8:	3204      	adds	r2, #4
+ 80008ca:	61da      	str	r2, [r3, #28]
+
+		__asm volatile ("MOV R10,%0" : :"r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 80008cc:	4b2f      	ldr	r3, [pc, #188]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008ce:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008d0:	69db      	ldr	r3, [r3, #28]
+ 80008d2:	681b      	ldr	r3, [r3, #0]
+ 80008d4:	469a      	mov	sl, r3
+		INCREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// increase Current SP by one
+ 80008d6:	4b2d      	ldr	r3, [pc, #180]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008d8:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008da:	69da      	ldr	r2, [r3, #28]
+ 80008dc:	4b2b      	ldr	r3, [pc, #172]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008de:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008e0:	3204      	adds	r2, #4
+ 80008e2:	61da      	str	r2, [r3, #28]
+
+		__asm volatile ("MOV R9,%0" : :"r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 80008e4:	4b29      	ldr	r3, [pc, #164]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008e6:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008e8:	69db      	ldr	r3, [r3, #28]
+ 80008ea:	681b      	ldr	r3, [r3, #0]
+ 80008ec:	4699      	mov	r9, r3
+		INCREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// increase Current SP by one
+ 80008ee:	4b27      	ldr	r3, [pc, #156]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008f0:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008f2:	69da      	ldr	r2, [r3, #28]
+ 80008f4:	4b25      	ldr	r3, [pc, #148]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008f6:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 80008f8:	3204      	adds	r2, #4
+ 80008fa:	61da      	str	r2, [r3, #28]
+
+		__asm volatile ("MOV R8,%0" : :"r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 80008fc:	4b23      	ldr	r3, [pc, #140]	; (800098c <PendSV_Handler+0x1c0>)
+ 80008fe:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000900:	69db      	ldr	r3, [r3, #28]
+ 8000902:	681b      	ldr	r3, [r3, #0]
+ 8000904:	4698      	mov	r8, r3
+		INCREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// increase Current SP by one
+ 8000906:	4b21      	ldr	r3, [pc, #132]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000908:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800090a:	69da      	ldr	r2, [r3, #28]
+ 800090c:	4b1f      	ldr	r3, [pc, #124]	; (800098c <PendSV_Handler+0x1c0>)
+ 800090e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000910:	3204      	adds	r2, #4
+ 8000912:	61da      	str	r2, [r3, #28]
+
+		__asm volatile ("MOV R7,%0" : :"r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 8000914:	4b1d      	ldr	r3, [pc, #116]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000916:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000918:	69db      	ldr	r3, [r3, #28]
+ 800091a:	681b      	ldr	r3, [r3, #0]
+ 800091c:	461f      	mov	r7, r3
+		INCREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// increase Current SP by one
+ 800091e:	4b1b      	ldr	r3, [pc, #108]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000920:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000922:	69da      	ldr	r2, [r3, #28]
+ 8000924:	4b19      	ldr	r3, [pc, #100]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000926:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000928:	3204      	adds	r2, #4
+ 800092a:	61da      	str	r2, [r3, #28]
+
+		__asm volatile ("MOV R6,%0" : :"r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 800092c:	4b17      	ldr	r3, [pc, #92]	; (800098c <PendSV_Handler+0x1c0>)
+ 800092e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000930:	69db      	ldr	r3, [r3, #28]
+ 8000932:	681b      	ldr	r3, [r3, #0]
+ 8000934:	461e      	mov	r6, r3
+		INCREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// increase Current SP by one
+ 8000936:	4b15      	ldr	r3, [pc, #84]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000938:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800093a:	69da      	ldr	r2, [r3, #28]
+ 800093c:	4b13      	ldr	r3, [pc, #76]	; (800098c <PendSV_Handler+0x1c0>)
+ 800093e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000940:	3204      	adds	r2, #4
+ 8000942:	61da      	str	r2, [r3, #28]
+
+		__asm volatile ("MOV R5,%0" : :"r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 8000944:	4b11      	ldr	r3, [pc, #68]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000946:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000948:	69db      	ldr	r3, [r3, #28]
+ 800094a:	681b      	ldr	r3, [r3, #0]
+ 800094c:	461d      	mov	r5, r3
+		INCREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// increase Current SP by one
+ 800094e:	4b0f      	ldr	r3, [pc, #60]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000950:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000952:	69da      	ldr	r2, [r3, #28]
+ 8000954:	4b0d      	ldr	r3, [pc, #52]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000956:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000958:	3204      	adds	r2, #4
+ 800095a:	61da      	str	r2, [r3, #28]
+
+		__asm volatile ("MOV R4,%0" : :"r"(*(OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP)));
+ 800095c:	4b0b      	ldr	r3, [pc, #44]	; (800098c <PendSV_Handler+0x1c0>)
+ 800095e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000960:	69db      	ldr	r3, [r3, #28]
+ 8000962:	681b      	ldr	r3, [r3, #0]
+ 8000964:	461c      	mov	r4, r3
+		INCREASE_SP_POSITION(OS_Control.OS_CurrentTask,1);	// increase Current SP by one
+ 8000966:	4b09      	ldr	r3, [pc, #36]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000968:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 800096a:	69da      	ldr	r2, [r3, #28]
+ 800096c:	4b07      	ldr	r3, [pc, #28]	; (800098c <PendSV_Handler+0x1c0>)
+ 800096e:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000970:	3204      	adds	r2, #4
+ 8000972:	61da      	str	r2, [r3, #28]
+
+		/*
+		 	05.Update CPU PSP <<-- new task PSP
+		 */
+		PSRC_voidSetPSP((uint32_t)OS_Control.OS_CurrentTask->TaskPrivateStates.pCurrentPSP);
+ 8000974:	4b05      	ldr	r3, [pc, #20]	; (800098c <PendSV_Handler+0x1c0>)
+ 8000976:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000978:	69db      	ldr	r3, [r3, #28]
+ 800097a:	461c      	mov	r4, r3
+	__asm("MOV r0,%[input0] \n\t"
+ 800097c:	4620      	mov	r0, r4
+ 800097e:	f380 8809 	msr	PSP, r0
+}
+ 8000982:	bf00      	nop
+
+		/*
+		 	06.Enable IRQ and Exit the Critical Section
+
+		 */
+		__asm volatile ("CPSIE i");
+ 8000984:	b662      	cpsie	i
+
+		/*
+		 	07.Switch the control to the next task and exit
+
+		 */
+		__asm("BX LR");
+ 8000986:	4770      	bx	lr
+
+}
+ 8000988:	bf00      	nop
+ 800098a:	bf00      	nop
+ 800098c:	2000001c 	.word	0x2000001c
+
+08000990 <SysTick_Handler>:
+
+void SysTick_Handler(void){
+ 8000990:	b580      	push	{r7, lr}
+ 8000992:	af00      	add	r7, sp, #0
+	STKHandlerLED ^=1;
+ 8000994:	4b06      	ldr	r3, [pc, #24]	; (80009b0 <SysTick_Handler+0x20>)
+ 8000996:	781b      	ldrb	r3, [r3, #0]
+ 8000998:	f083 0301 	eor.w	r3, r3, #1
+ 800099c:	b2da      	uxtb	r2, r3
+ 800099e:	4b04      	ldr	r3, [pc, #16]	; (80009b0 <SysTick_Handler+0x20>)
+ 80009a0:	701a      	strb	r2, [r3, #0]
+
+	//01.Select Task to execute
+	ArefRTOS_voidSecondStageDispatcher();
+ 80009a2:	f7ff fd93 	bl	80004cc <ArefRTOS_voidSecondStageDispatcher>
+	//02.Context Switching
+	SCB_voidTrigPendSV();
+ 80009a6:	f000 f839 	bl	8000a1c <SCB_voidTrigPendSV>
+}
+ 80009aa:	bf00      	nop
+ 80009ac:	bd80      	pop	{r7, pc}
+ 80009ae:	bf00      	nop
+ 80009b0:	200000bd 	.word	0x200000bd
+
+080009b4 <__NVIC_SetPriority>:
+  \param [in]      IRQn  Interrupt number.
+  \param [in]  priority  Priority to set.
+  \note    The priority cannot be set for every processor exception.
+ */
+__STATIC_INLINE void __NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
+{
+ 80009b4:	b480      	push	{r7}
+ 80009b6:	b083      	sub	sp, #12
+ 80009b8:	af00      	add	r7, sp, #0
+ 80009ba:	4603      	mov	r3, r0
+ 80009bc:	6039      	str	r1, [r7, #0]
+ 80009be:	71fb      	strb	r3, [r7, #7]
+  if ((int32_t)(IRQn) >= 0)
+ 80009c0:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 80009c4:	2b00      	cmp	r3, #0
+ 80009c6:	db0a      	blt.n	80009de <__NVIC_SetPriority+0x2a>
+  {
+    NVIC->IP[((uint32_t)IRQn)]               = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 80009c8:	683b      	ldr	r3, [r7, #0]
+ 80009ca:	b2da      	uxtb	r2, r3
+ 80009cc:	490c      	ldr	r1, [pc, #48]	; (8000a00 <__NVIC_SetPriority+0x4c>)
+ 80009ce:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 80009d2:	0152      	lsls	r2, r2, #5
+ 80009d4:	b2d2      	uxtb	r2, r2
+ 80009d6:	440b      	add	r3, r1
+ 80009d8:	f883 2300 	strb.w	r2, [r3, #768]	; 0x300
+  }
+  else
+  {
+    SCB->SHP[(((uint32_t)IRQn) & 0xFUL)-4UL] = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+  }
+}
+ 80009dc:	e00a      	b.n	80009f4 <__NVIC_SetPriority+0x40>
+    SCB->SHP[(((uint32_t)IRQn) & 0xFUL)-4UL] = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 80009de:	683b      	ldr	r3, [r7, #0]
+ 80009e0:	b2da      	uxtb	r2, r3
+ 80009e2:	4908      	ldr	r1, [pc, #32]	; (8000a04 <__NVIC_SetPriority+0x50>)
+ 80009e4:	79fb      	ldrb	r3, [r7, #7]
+ 80009e6:	f003 030f 	and.w	r3, r3, #15
+ 80009ea:	3b04      	subs	r3, #4
+ 80009ec:	0152      	lsls	r2, r2, #5
+ 80009ee:	b2d2      	uxtb	r2, r2
+ 80009f0:	440b      	add	r3, r1
+ 80009f2:	761a      	strb	r2, [r3, #24]
+}
+ 80009f4:	bf00      	nop
+ 80009f6:	370c      	adds	r7, #12
+ 80009f8:	46bd      	mov	sp, r7
+ 80009fa:	bc80      	pop	{r7}
+ 80009fc:	4770      	bx	lr
+ 80009fe:	bf00      	nop
+ 8000a00:	e000e100 	.word	0xe000e100
+ 8000a04:	e000ed00 	.word	0xe000ed00
+
+08000a08 <NVIC_SetPendSVInterruptPriority>:
+/***********************************************************
+* 														   *
+*			    FUNCTIONS DEFINITIONS	                   *
+*														   *
+************************************************************/
+void NVIC_SetPendSVInterruptPriority(void){
+ 8000a08:	b580      	push	{r7, lr}
+ 8000a0a:	af00      	add	r7, sp, #0
+	__NVIC_SetPriority(PendSV_IRQn, PendSV_InterruptPriorityNumber);
+ 8000a0c:	210f      	movs	r1, #15
+ 8000a0e:	f06f 0001 	mvn.w	r0, #1
+ 8000a12:	f7ff ffcf 	bl	80009b4 <__NVIC_SetPriority>
+}
+ 8000a16:	bf00      	nop
+ 8000a18:	bd80      	pop	{r7, pc}
+	...
+
+08000a1c <SCB_voidTrigPendSV>:
+* 														   *
+*			       FUNCTIONS DEFINITION                    *
+*														   *
+************************************************************/
+void SCB_voidTrigPendSV(void)
+{
+ 8000a1c:	b480      	push	{r7}
+ 8000a1e:	af00      	add	r7, sp, #0
+	SET_BIT(SCB_ICSR,SCB_ICSR_PendSV_BitMask);
+ 8000a20:	4b04      	ldr	r3, [pc, #16]	; (8000a34 <SCB_voidTrigPendSV+0x18>)
+ 8000a22:	681b      	ldr	r3, [r3, #0]
+ 8000a24:	4a03      	ldr	r2, [pc, #12]	; (8000a34 <SCB_voidTrigPendSV+0x18>)
+ 8000a26:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 8000a2a:	6013      	str	r3, [r2, #0]
+}
+ 8000a2c:	bf00      	nop
+ 8000a2e:	46bd      	mov	sp, r7
+ 8000a30:	bc80      	pop	{r7}
+ 8000a32:	4770      	bx	lr
+ 8000a34:	e000ed04 	.word	0xe000ed04
+
+08000a38 <__NVIC_SetPriority>:
+{
+ 8000a38:	b480      	push	{r7}
+ 8000a3a:	b083      	sub	sp, #12
+ 8000a3c:	af00      	add	r7, sp, #0
+ 8000a3e:	4603      	mov	r3, r0
+ 8000a40:	6039      	str	r1, [r7, #0]
+ 8000a42:	71fb      	strb	r3, [r7, #7]
+  if ((int32_t)(IRQn) >= 0)
+ 8000a44:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 8000a48:	2b00      	cmp	r3, #0
+ 8000a4a:	db0a      	blt.n	8000a62 <__NVIC_SetPriority+0x2a>
+    NVIC->IP[((uint32_t)IRQn)]               = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 8000a4c:	683b      	ldr	r3, [r7, #0]
+ 8000a4e:	b2da      	uxtb	r2, r3
+ 8000a50:	490c      	ldr	r1, [pc, #48]	; (8000a84 <__NVIC_SetPriority+0x4c>)
+ 8000a52:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 8000a56:	0152      	lsls	r2, r2, #5
+ 8000a58:	b2d2      	uxtb	r2, r2
+ 8000a5a:	440b      	add	r3, r1
+ 8000a5c:	f883 2300 	strb.w	r2, [r3, #768]	; 0x300
+}
+ 8000a60:	e00a      	b.n	8000a78 <__NVIC_SetPriority+0x40>
+    SCB->SHP[(((uint32_t)IRQn) & 0xFUL)-4UL] = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 8000a62:	683b      	ldr	r3, [r7, #0]
+ 8000a64:	b2da      	uxtb	r2, r3
+ 8000a66:	4908      	ldr	r1, [pc, #32]	; (8000a88 <__NVIC_SetPriority+0x50>)
+ 8000a68:	79fb      	ldrb	r3, [r7, #7]
+ 8000a6a:	f003 030f 	and.w	r3, r3, #15
+ 8000a6e:	3b04      	subs	r3, #4
+ 8000a70:	0152      	lsls	r2, r2, #5
+ 8000a72:	b2d2      	uxtb	r2, r2
+ 8000a74:	440b      	add	r3, r1
+ 8000a76:	761a      	strb	r2, [r3, #24]
+}
+ 8000a78:	bf00      	nop
+ 8000a7a:	370c      	adds	r7, #12
+ 8000a7c:	46bd      	mov	sp, r7
+ 8000a7e:	bc80      	pop	{r7}
+ 8000a80:	4770      	bx	lr
+ 8000a82:	bf00      	nop
+ 8000a84:	e000e100 	.word	0xe000e100
+ 8000a88:	e000ed00 	.word	0xe000ed00
+
+08000a8c <SysTick_Config>:
+  \note    When the variable <b>__Vendor_SysTickConfig</b> is set to 1, then the
+           function <b>SysTick_Config</b> is not included. In this case, the file <b><i>device</i>.h</b>
+           must contain a vendor-specific implementation of this function.
+ */
+__STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
+{
+ 8000a8c:	b580      	push	{r7, lr}
+ 8000a8e:	b082      	sub	sp, #8
+ 8000a90:	af00      	add	r7, sp, #0
+ 8000a92:	6078      	str	r0, [r7, #4]
+  if ((ticks - 1UL) > SysTick_LOAD_RELOAD_Msk)
+ 8000a94:	687b      	ldr	r3, [r7, #4]
+ 8000a96:	3b01      	subs	r3, #1
+ 8000a98:	f1b3 7f80 	cmp.w	r3, #16777216	; 0x1000000
+ 8000a9c:	d301      	bcc.n	8000aa2 <SysTick_Config+0x16>
+  {
+    return (1UL);                                                   /* Reload value impossible */
+ 8000a9e:	2301      	movs	r3, #1
+ 8000aa0:	e00f      	b.n	8000ac2 <SysTick_Config+0x36>
+  }
+
+  SysTick->LOAD  = (uint32_t)(ticks - 1UL);                         /* set reload register */
+ 8000aa2:	4a0a      	ldr	r2, [pc, #40]	; (8000acc <SysTick_Config+0x40>)
+ 8000aa4:	687b      	ldr	r3, [r7, #4]
+ 8000aa6:	3b01      	subs	r3, #1
+ 8000aa8:	6053      	str	r3, [r2, #4]
+  NVIC_SetPriority (SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL); /* set Priority for Systick Interrupt */
+ 8000aaa:	2107      	movs	r1, #7
+ 8000aac:	f04f 30ff 	mov.w	r0, #4294967295
+ 8000ab0:	f7ff ffc2 	bl	8000a38 <__NVIC_SetPriority>
+  SysTick->VAL   = 0UL;                                             /* Load the SysTick Counter Value */
+ 8000ab4:	4b05      	ldr	r3, [pc, #20]	; (8000acc <SysTick_Config+0x40>)
+ 8000ab6:	2200      	movs	r2, #0
+ 8000ab8:	609a      	str	r2, [r3, #8]
+  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
+ 8000aba:	4b04      	ldr	r3, [pc, #16]	; (8000acc <SysTick_Config+0x40>)
+ 8000abc:	2207      	movs	r2, #7
+ 8000abe:	601a      	str	r2, [r3, #0]
+                   SysTick_CTRL_TICKINT_Msk   |
+                   SysTick_CTRL_ENABLE_Msk;                         /* Enable SysTick IRQ and SysTick Timer */
+  return (0UL);                                                     /* Function successful */
+ 8000ac0:	2300      	movs	r3, #0
+}
+ 8000ac2:	4618      	mov	r0, r3
+ 8000ac4:	3708      	adds	r7, #8
+ 8000ac6:	46bd      	mov	sp, r7
+ 8000ac8:	bd80      	pop	{r7, pc}
+ 8000aca:	bf00      	nop
+ 8000acc:	e000e010 	.word	0xe000e010
+
+08000ad0 <STK_SetPeriodicInterruptInterval>:
+/***********************************************************
+* 														   *
+*			    FUNCTIONS DEFINITIONS	                   *
+*														   *
+************************************************************/
+void STK_SetPeriodicInterruptInterval(void){
+ 8000ad0:	b580      	push	{r7, lr}
+ 8000ad2:	af00      	add	r7, sp, #0
+	SysTick_Config(DelayTime_1mS_NumberOfCounts);
+ 8000ad4:	f44f 50fa 	mov.w	r0, #8000	; 0x1f40
+ 8000ad8:	f7ff ffd8 	bl	8000a8c <SysTick_Config>
+}
+ 8000adc:	bf00      	nop
+ 8000ade:	bd80      	pop	{r7, pc}
+
+08000ae0 <task1>:
+ArefRTOS_ErrorID Error;
+uint8_t Task1LED, Task2LED, Task3LED;
+/*******************************************************************************
+                          Tasks Definitions
+*******************************************************************************/
+void task1(void){
+ 8000ae0:	b480      	push	{r7}
+ 8000ae2:	af00      	add	r7, sp, #0
+	for(;;)
+		Task1LED ^=1;
+ 8000ae4:	4b03      	ldr	r3, [pc, #12]	; (8000af4 <task1+0x14>)
+ 8000ae6:	781b      	ldrb	r3, [r3, #0]
+ 8000ae8:	f083 0301 	eor.w	r3, r3, #1
+ 8000aec:	b2da      	uxtb	r2, r3
+ 8000aee:	4b01      	ldr	r3, [pc, #4]	; (8000af4 <task1+0x14>)
+ 8000af0:	701a      	strb	r2, [r3, #0]
+ 8000af2:	e7f7      	b.n	8000ae4 <task1+0x4>
+ 8000af4:	20000138 	.word	0x20000138
+
+08000af8 <task2>:
+
+}
+void task2(void){
+ 8000af8:	b480      	push	{r7}
+ 8000afa:	af00      	add	r7, sp, #0
+	for(;;)
+		Task2LED ^=1;
+ 8000afc:	4b03      	ldr	r3, [pc, #12]	; (8000b0c <task2+0x14>)
+ 8000afe:	781b      	ldrb	r3, [r3, #0]
+ 8000b00:	f083 0301 	eor.w	r3, r3, #1
+ 8000b04:	b2da      	uxtb	r2, r3
+ 8000b06:	4b01      	ldr	r3, [pc, #4]	; (8000b0c <task2+0x14>)
+ 8000b08:	701a      	strb	r2, [r3, #0]
+ 8000b0a:	e7f7      	b.n	8000afc <task2+0x4>
+ 8000b0c:	20000139 	.word	0x20000139
+
+08000b10 <task3>:
+}
+void task3(void){
+ 8000b10:	b480      	push	{r7}
+ 8000b12:	af00      	add	r7, sp, #0
+	for(;;)
+		Task3LED ^=1;
+ 8000b14:	4b03      	ldr	r3, [pc, #12]	; (8000b24 <task3+0x14>)
+ 8000b16:	781b      	ldrb	r3, [r3, #0]
+ 8000b18:	f083 0301 	eor.w	r3, r3, #1
+ 8000b1c:	b2da      	uxtb	r2, r3
+ 8000b1e:	4b01      	ldr	r3, [pc, #4]	; (8000b24 <task3+0x14>)
+ 8000b20:	701a      	strb	r2, [r3, #0]
+ 8000b22:	e7f7      	b.n	8000b14 <task3+0x4>
+ 8000b24:	2000013a 	.word	0x2000013a
+
+08000b28 <main>:
+}
+
+int main(void)
+{
+ 8000b28:	b580      	push	{r7, lr}
+ 8000b2a:	af00      	add	r7, sp, #0
+	//01. Initialize the OS Software & hardware
+	if(ArefRTOS_voidInit()!= NoError)
+ 8000b2c:	f7ff fd94 	bl	8000658 <ArefRTOS_voidInit>
+ 8000b30:	4603      	mov	r3, r0
+ 8000b32:	2b00      	cmp	r3, #0
+ 8000b34:	d000      	beq.n	8000b38 <main+0x10>
+		while(1);
+ 8000b36:	e7fe      	b.n	8000b36 <main+0xe>
+	//03. Configure the Tasks
+	Task1.TaskID = 1;
+ 8000b38:	4b1d      	ldr	r3, [pc, #116]	; (8000bb0 <main+0x88>)
+ 8000b3a:	2201      	movs	r2, #1
+ 8000b3c:	701a      	strb	r2, [r3, #0]
+	Task1.TaskPriority = 1;
+ 8000b3e:	4b1c      	ldr	r3, [pc, #112]	; (8000bb0 <main+0x88>)
+ 8000b40:	2201      	movs	r2, #1
+ 8000b42:	721a      	strb	r2, [r3, #8]
+	Task1.TaskStackSize = 1024;
+ 8000b44:	4b1a      	ldr	r3, [pc, #104]	; (8000bb0 <main+0x88>)
+ 8000b46:	f44f 6280 	mov.w	r2, #1024	; 0x400
+ 8000b4a:	605a      	str	r2, [r3, #4]
+	Task1.pTaskFcn = task1;
+ 8000b4c:	4b18      	ldr	r3, [pc, #96]	; (8000bb0 <main+0x88>)
+ 8000b4e:	4a19      	ldr	r2, [pc, #100]	; (8000bb4 <main+0x8c>)
+ 8000b50:	60da      	str	r2, [r3, #12]
+
+	Task2.TaskID = 2;
+ 8000b52:	4b19      	ldr	r3, [pc, #100]	; (8000bb8 <main+0x90>)
+ 8000b54:	2202      	movs	r2, #2
+ 8000b56:	701a      	strb	r2, [r3, #0]
+	Task2.TaskPriority = 1;
+ 8000b58:	4b17      	ldr	r3, [pc, #92]	; (8000bb8 <main+0x90>)
+ 8000b5a:	2201      	movs	r2, #1
+ 8000b5c:	721a      	strb	r2, [r3, #8]
+	Task2.TaskStackSize = 1024;
+ 8000b5e:	4b16      	ldr	r3, [pc, #88]	; (8000bb8 <main+0x90>)
+ 8000b60:	f44f 6280 	mov.w	r2, #1024	; 0x400
+ 8000b64:	605a      	str	r2, [r3, #4]
+	Task2.pTaskFcn = task2;
+ 8000b66:	4b14      	ldr	r3, [pc, #80]	; (8000bb8 <main+0x90>)
+ 8000b68:	4a14      	ldr	r2, [pc, #80]	; (8000bbc <main+0x94>)
+ 8000b6a:	60da      	str	r2, [r3, #12]
+
+	Task3.TaskID = 3;
+ 8000b6c:	4b14      	ldr	r3, [pc, #80]	; (8000bc0 <main+0x98>)
+ 8000b6e:	2203      	movs	r2, #3
+ 8000b70:	701a      	strb	r2, [r3, #0]
+	Task3.TaskPriority = 1;
+ 8000b72:	4b13      	ldr	r3, [pc, #76]	; (8000bc0 <main+0x98>)
+ 8000b74:	2201      	movs	r2, #1
+ 8000b76:	721a      	strb	r2, [r3, #8]
+	Task3.TaskStackSize = 1024;
+ 8000b78:	4b11      	ldr	r3, [pc, #68]	; (8000bc0 <main+0x98>)
+ 8000b7a:	f44f 6280 	mov.w	r2, #1024	; 0x400
+ 8000b7e:	605a      	str	r2, [r3, #4]
+	Task3.pTaskFcn = task3;
+ 8000b80:	4b0f      	ldr	r3, [pc, #60]	; (8000bc0 <main+0x98>)
+ 8000b82:	4a10      	ldr	r2, [pc, #64]	; (8000bc4 <main+0x9c>)
+ 8000b84:	60da      	str	r2, [r3, #12]
+
+	//04. Create the Tasks
+	ArefRTOS_voidCreateTask(&Task1);
+ 8000b86:	480a      	ldr	r0, [pc, #40]	; (8000bb0 <main+0x88>)
+ 8000b88:	f7ff fcec 	bl	8000564 <ArefRTOS_voidCreateTask>
+	ArefRTOS_voidCreateTask(&Task2);
+ 8000b8c:	480a      	ldr	r0, [pc, #40]	; (8000bb8 <main+0x90>)
+ 8000b8e:	f7ff fce9 	bl	8000564 <ArefRTOS_voidCreateTask>
+	ArefRTOS_voidCreateTask(&Task3);
+ 8000b92:	480b      	ldr	r0, [pc, #44]	; (8000bc0 <main+0x98>)
+ 8000b94:	f7ff fce6 	bl	8000564 <ArefRTOS_voidCreateTask>
+
+	//05. Activate the Tasks
+	ArefRTOS_voidActivateTask(&Task1);
+ 8000b98:	4805      	ldr	r0, [pc, #20]	; (8000bb0 <main+0x88>)
+ 8000b9a:	f7ff fd95 	bl	80006c8 <ArefRTOS_voidActivateTask>
+	ArefRTOS_voidActivateTask(&Task2);
+ 8000b9e:	4806      	ldr	r0, [pc, #24]	; (8000bb8 <main+0x90>)
+ 8000ba0:	f7ff fd92 	bl	80006c8 <ArefRTOS_voidActivateTask>
+	ArefRTOS_voidActivateTask(&Task3);
+ 8000ba4:	4806      	ldr	r0, [pc, #24]	; (8000bc0 <main+0x98>)
+ 8000ba6:	f7ff fd8f 	bl	80006c8 <ArefRTOS_voidActivateTask>
+
+	//06. Start the OS Scheduler
+	ArefRTOS_voidStartScheduler();
+ 8000baa:	f7ff fda7 	bl	80006fc <ArefRTOS_voidStartScheduler>
+
+
+    /* Loop forever */
+	for(;;);
+ 8000bae:	e7fe      	b.n	8000bae <main+0x86>
+ 8000bb0:	200000c0 	.word	0x200000c0
+ 8000bb4:	08000ae1 	.word	0x08000ae1
+ 8000bb8:	200000e8 	.word	0x200000e8
+ 8000bbc:	08000af9 	.word	0x08000af9
+ 8000bc0:	20000110 	.word	0x20000110
+ 8000bc4:	08000b11 	.word	0x08000b11
+
+08000bc8 <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 8000bc8:	480d      	ldr	r0, [pc, #52]	; (8000c00 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 8000bca:	4685      	mov	sp, r0
+/* Call the clock system initialization function.*/
+  bl  SystemInit
+ 8000bcc:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 8000bd0:	480c      	ldr	r0, [pc, #48]	; (8000c04 <LoopForever+0x6>)
+  ldr r1, =_edata
+ 8000bd2:	490d      	ldr	r1, [pc, #52]	; (8000c08 <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 8000bd4:	4a0d      	ldr	r2, [pc, #52]	; (8000c0c <LoopForever+0xe>)
+  movs r3, #0
+ 8000bd6:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 8000bd8:	e002      	b.n	8000be0 <LoopCopyDataInit>
+
+08000bda <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 8000bda:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 8000bdc:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 8000bde:	3304      	adds	r3, #4
+
+08000be0 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 8000be0:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 8000be2:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 8000be4:	d3f9      	bcc.n	8000bda <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 8000be6:	4a0a      	ldr	r2, [pc, #40]	; (8000c10 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 8000be8:	4c0a      	ldr	r4, [pc, #40]	; (8000c14 <LoopForever+0x16>)
+  movs r3, #0
+ 8000bea:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 8000bec:	e001      	b.n	8000bf2 <LoopFillZerobss>
+
+08000bee <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 8000bee:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 8000bf0:	3204      	adds	r2, #4
+
+08000bf2 <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 8000bf2:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 8000bf4:	d3fb      	bcc.n	8000bee <FillZerobss>
+
+/* Call static constructors */
+  bl __libc_init_array
+ 8000bf6:	f000 f811 	bl	8000c1c <__libc_init_array>
+/* Call the application's entry point.*/
+  bl main
+ 8000bfa:	f7ff ff95 	bl	8000b28 <main>
+
+08000bfe <LoopForever>:
+
+LoopForever:
+  b LoopForever
+ 8000bfe:	e7fe      	b.n	8000bfe <LoopForever>
+  ldr   r0, =_estack
+ 8000c00:	20002800 	.word	0x20002800
+  ldr r0, =_sdata
+ 8000c04:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 8000c08:	20000000 	.word	0x20000000
+  ldr r2, =_sidata
+ 8000c0c:	08000c84 	.word	0x08000c84
+  ldr r2, =_sbss
+ 8000c10:	20000000 	.word	0x20000000
+  ldr r4, =_ebss
+ 8000c14:	2000013c 	.word	0x2000013c
+
+08000c18 <ADC1_2_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 8000c18:	e7fe      	b.n	8000c18 <ADC1_2_IRQHandler>
+	...
+
+08000c1c <__libc_init_array>:
+ 8000c1c:	b570      	push	{r4, r5, r6, lr}
+ 8000c1e:	2600      	movs	r6, #0
+ 8000c20:	4d0c      	ldr	r5, [pc, #48]	; (8000c54 <__libc_init_array+0x38>)
+ 8000c22:	4c0d      	ldr	r4, [pc, #52]	; (8000c58 <__libc_init_array+0x3c>)
+ 8000c24:	1b64      	subs	r4, r4, r5
+ 8000c26:	10a4      	asrs	r4, r4, #2
+ 8000c28:	42a6      	cmp	r6, r4
+ 8000c2a:	d109      	bne.n	8000c40 <__libc_init_array+0x24>
+ 8000c2c:	f000 f81a 	bl	8000c64 <_init>
+ 8000c30:	2600      	movs	r6, #0
+ 8000c32:	4d0a      	ldr	r5, [pc, #40]	; (8000c5c <__libc_init_array+0x40>)
+ 8000c34:	4c0a      	ldr	r4, [pc, #40]	; (8000c60 <__libc_init_array+0x44>)
+ 8000c36:	1b64      	subs	r4, r4, r5
+ 8000c38:	10a4      	asrs	r4, r4, #2
+ 8000c3a:	42a6      	cmp	r6, r4
+ 8000c3c:	d105      	bne.n	8000c4a <__libc_init_array+0x2e>
+ 8000c3e:	bd70      	pop	{r4, r5, r6, pc}
+ 8000c40:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000c44:	4798      	blx	r3
+ 8000c46:	3601      	adds	r6, #1
+ 8000c48:	e7ee      	b.n	8000c28 <__libc_init_array+0xc>
+ 8000c4a:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000c4e:	4798      	blx	r3
+ 8000c50:	3601      	adds	r6, #1
+ 8000c52:	e7f2      	b.n	8000c3a <__libc_init_array+0x1e>
+ 8000c54:	08000c7c 	.word	0x08000c7c
+ 8000c58:	08000c7c 	.word	0x08000c7c
+ 8000c5c:	08000c7c 	.word	0x08000c7c
+ 8000c60:	08000c80 	.word	0x08000c80
+
+08000c64 <_init>:
+ 8000c64:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000c66:	bf00      	nop
+ 8000c68:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000c6a:	bc08      	pop	{r3}
+ 8000c6c:	469e      	mov	lr, r3
+ 8000c6e:	4770      	bx	lr
+
+08000c70 <_fini>:
+ 8000c70:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000c72:	bf00      	nop
+ 8000c74:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000c76:	bc08      	pop	{r3}
+ 8000c78:	469e      	mov	lr, r3
+ 8000c7a:	4770      	bx	lr
