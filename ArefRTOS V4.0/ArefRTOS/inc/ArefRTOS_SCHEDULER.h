@@ -92,18 +92,48 @@ typedef struct
 ArefRTOS_ErrorID ArefRTOS_voidInit(void);
 
 /*
- * @brief This Function is used to Create new task.
- * @param pTask -> pointer to task that has attributes @ref ArefRTOS_Task
- * @return ArefRTOS_ErrorID return one of @ref ArefRTOS_ErrorID
+ * @brief Create a new task and initialize its attributes.
+ * This function is used to create a new task within the ArefRTOS system. It initializes the task's attributes and adds it to the task list.
+ * @param pTask Pointer to the task with attributes of type ArefRTOS_Task.
+ * @return ArefRTOS_ErrorID An error code indicating the success or failure of the task creation process.
  */
 ArefRTOS_ErrorID ArefRTOS_voidCreateTask(ArefRTOS_Task* pTask);
 
+/*
+ * @brief Activate a specified task for execution.
+ * This function activates a task within the ArefRTOS system, allowing it to begin execution.
+ * It transitions the task to a "Waiting" state and triggers its execution.
+ * @param pTask Pointer to the task to be activated.
+ * @return ArefRTOS_ErrorID An error code indicating the success or failure of the task activation process.
+ */
 ArefRTOS_ErrorID ArefRTOS_voidActivateTask(ArefRTOS_Task* pTask);
 
+/*
+ * @brief Terminate or suspend a specified task.
+ * This function is responsible for terminating or suspending a task within the ArefRTOS system.
+ * It transitions the task to a "Suspend" state, effectively ending its execution.
+ * @param pTask Pointer to the task to be terminated or suspended.
+ * @return ArefRTOS_ErrorID An error code indicating the success or failure of the task termination process.
+ */
 ArefRTOS_ErrorID ArefRTOS_voidTerminateTask(ArefRTOS_Task* pTask);
 
+/*
+ * @brief Introduce a time-based delay in task execution.
+ * This function introduces a time-based delay in the execution of a specified task within the ArefRTOS system.
+ * It suspends the task temporarily, enables a delay flag, and sets the delay duration in ticks.
+ * @param pTask Pointer to the task to which the delay is applied.
+ * @param copy_u32NumberofTicks The number of timer ticks to delay the task's execution.
+ * @return ArefRTOS_ErrorID An error code indicating the success or failure of the task delay process.
+ */
 ArefRTOS_ErrorID ArefRTOS_voidTaskDelay(ArefRTOS_Task* pTask, uint32_t copy_u32NumberofTicks);
 
+/*
+ * @brief Initialize and start the task scheduler.
+ * This function initializes and activates the task scheduler within the ArefRTOS real-time operating system (RTOS).
+ * It sets the system's operating mode to "Running," configures the initial task (typically the idle task), and begins task execution.
+ * This function is essential for task management and execution.
+ * @return ArefRTOS_ErrorID An error code indicating the success or failure of the task scheduler initialization and startup process.
+ */
 ArefRTOS_ErrorID ArefRTOS_voidStartScheduler(void);
 
 #endif /* INC_AREFRTOS_SCHEDULER_H_ */

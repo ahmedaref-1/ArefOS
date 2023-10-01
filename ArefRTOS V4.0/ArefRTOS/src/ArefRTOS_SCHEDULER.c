@@ -298,21 +298,27 @@ static void ArefRTOS_voidSecondStageDispatcher(){
 
 	// 03.Select Current and Next Task to be running
 		/*
-		 03.1.Case that the queue is empty and there is no ready tasks and the current task is not suspended
-		 	  Then let the last task that was running, continue running
-		 	  Either this task was a user defined task or the idle task
+	 	 03.1.Case that the ready queue is empty and there is no ready tasks and the current task is suspended
+	 	  	  Then activate the idle task
 		 */
-	if((0 == LOC_u8QueueSize)&&(OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState != TS_Suspend))
+	if((0 == LOC_u8QueueSize)&&(OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState == TS_Suspend)){
+		OS_Control.OS_NextTask = &Global_IdleTask;
+	}
+		/*
+		 03.2.Case that the ready queue is empty and there is no ready tasks and the current task is not suspended
+		 	  Then let the last task that was running, continue running
+		 */
+	else if((0 == LOC_u8QueueSize)&&(OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState != TS_Suspend))
 	{
 		OS_Control.OS_CurrentTask->TaskPrivateStates.TaskState = TS_Running;
 		queue_add(OS_Control.OS_CurrentTask,&Global_QueueOfReadyTasks);
 		OS_Control.OS_NextTask = OS_Control.OS_CurrentTask;
 	}
-	/*
-	 03.2.Case that the ready queue is not empty
-	 	  Then enqueue the first task in the FIFO, assign it to be the next task
-	 	  check if the current task is of same priority then apply the round robin algorithm
-	 */
+		/*
+	 	 03.3.Case that the ready queue is not empty
+	 	  	  Then enqueue the first task in the FIFO, assign it to be the next task
+	 	  	  check if the current task is of same priority then apply the round robin algorithm
+		 */
 	else
 	{
 		queue_get(&LOC_currentTask, &Global_QueueOfReadyTasks);
@@ -403,7 +409,7 @@ ArefRTOS_ErrorID ArefRTOS_voidActivateTask(ArefRTOS_Task* pTask)
 		LOC_ArefRTOS_ErrorID =	NoError  ;
 		// 01.Add It in Waiting State
 		pTask->TaskPrivateStates.TaskState = TS_Waiting;
-		// 02.Call Service Called SVC_ID_ACTIVE_TASk
+		// 02.Call Service Called SVC_CALL_ACTIVATE_TASK
 		ArefRTOS_voidCallService((uint8_t)ArefRTOS_SVC_CALL_ACTIVATE_TASK);
 	}
 	else
@@ -420,9 +426,9 @@ ArefRTOS_ErrorID ArefRTOS_voidTerminateTask(ArefRTOS_Task* pTask)
 	if(pTask != NULL)
 	{
 		LOC_ArefRTOS_ErrorID =	NoError  ;
-		// Add It in Suspend State
+		// 01.Add It in Suspend State
 		pTask->TaskPrivateStates.TaskState = TS_Suspend;
-		// Call Service Called SVC_ID_TERMINATE_TASk
+		// 02.Call Service Called SVC_CALL_TERMINATE_TASK
 		ArefRTOS_voidCallService((uint8_t)ArefRTOS_SVC_CALL_TERMINATE_TASK);
 	}
 	else
@@ -442,7 +448,7 @@ ArefRTOS_ErrorID ArefRTOS_voidTaskDelay(ArefRTOS_Task* pTask, uint32_t copy_u32N
 	pTask->TaskPrivateStates.TimeDelayFlag = Enable ;
 	// 03.Add number of ticks
 	pTask->TaskPrivateStates.TaskDelayTime = copy_u32NumberofTicks;
-	// 04.Call its SVC
+	// 04.Call Service Called SVC_CALL_DELAY_TASK
 	ArefRTOS_voidCallService((uint8_t)ArefRTOS_SVC_CALL_DELAY_TASK);
 
 	return LOC_ArefRTOS_ErrorID ;
@@ -496,6 +502,7 @@ void ArefRTOS_SVC_CALL( uint32_t *svc_args )
   {
     case ArefRTOS_SVC_CALL_ACTIVATE_TASK:
     case ArefRTOS_SVC_CALL_TERMINATE_TASK:
+    case ArefRTOS_SVC_CALL_DELAY_TASK:
     		// 01. Calling the Scheduler to decide which process to execute next, based on priority
     		ArefRTOS_voidFirstStageScheduler();
     		// 02. Check if OS Working
@@ -511,15 +518,35 @@ void ArefRTOS_SVC_CALL( uint32_t *svc_args )
 
     		}
     	break;
-    case ArefRTOS_SVC_CALL_DELAY_TASK:
-    	// 01. Calling the Scheduler to decide which process to execute next, based on priority
-    		ArefRTOS_voidFirstStageScheduler();
+
     default:    /* unknown SVC */
       break;
   }
 }
 
-
+FORCE_INLINE static void ArefRTOS_voidCheckDelayedTasks (void)
+{
+	uint8_t LOC_u8Counter = 0 ;
+	// 01.Iterate through the total number of tasks
+	for(LOC_u8Counter = 0 ; LOC_u8Counter < OS_Control.CurrentNumberofTasks; LOC_u8Counter++)
+	{
+		// 02.Check if the task is suspended and waiting time flag is enabled
+		if((OS_Control.OS_SchedulerTable[LOC_u8Counter]->TaskPrivateStates.TaskState == TS_Suspend) && (OS_Control.OS_SchedulerTable[LOC_u8Counter]->TaskPrivateStates.TimeDelayFlag == 1))
+		{
+			// 03.Decrement the counter of the waiting task
+			OS_Control.OS_SchedulerTable[LOC_u8Counter]->TaskPrivateStates.TaskDelayTime-- ;
+			if(OS_Control.OS_SchedulerTable[LOC_u8Counter]->TaskPrivateStates.TaskDelayTime == 0)
+			{
+				// 04.Disable Waiting
+				OS_Control.OS_SchedulerTable[LOC_u8Counter]->TaskPrivateStates.TimeDelayFlag = Disable ;
+				// 05.Change the task state to waiting state
+				OS_Control.OS_SchedulerTable[LOC_u8Counter]->TaskPrivateStates.TaskState = TS_Waiting ;
+				// 06.Call service ID called SVC_CALL_DELAY_TASK
+				ArefRTOS_voidCallService(ArefRTOS_SVC_CALL_DELAY_TASK);
+			}
+		}
+	}
+}
 /******************************************************************************
 * 																			  *
 * 					IRQ HANDLER FUNCTIONS DEFINITION						  *
@@ -622,9 +649,10 @@ FORCE_NAKED void PendSV_Handler(void){
 
 void SysTick_Handler(void){
 	STKHandlerLED ^=1;
-
-	//01.Select Task to execute
+	//01.Update the delayed tasks & Update the scheduler table if needed
+	ArefRTOS_voidCheckDelayedTasks();
+	//02.Select Task to execute
 	ArefRTOS_voidSecondStageDispatcher();
-	//02.Context Switching
+	//03.Context Switching
 	SCB_voidTrigPendSV();
 }
