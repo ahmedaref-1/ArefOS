@@ -32,4 +32,4 @@ ArefOS is a project designed to help you excel in your RTOS course. It provides 
 
 We welcome contributions from the community to make ArefOS even more valuable for RTOS learners. If you have ideas, bug fixes, or improvements, please feel free to open an issue or submit a pull request.
 
-Happy learning, and may your journey to mastering Real-Time Operating Systems with ArefOS be both educational and rewarding! 👩‍🚀
+Happy learning, and may your journey to mastering Real-Time Operating Systems with ArefOS be both educational and rewarding!👩‍🚀
