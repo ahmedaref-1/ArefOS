@@ -1,0 +1,17 @@
+ArefRTOS_SCHEDULER.c:112:25:ArefRTOS_staticMainStack	2
+ArefRTOS_SCHEDULER.c:128:13:ArefRTOS_voidIdleTask	1
+ArefRTOS_SCHEDULER.c:206:13:ArefRTOS_voidBubbleSort	4
+ArefRTOS_SCHEDULER.c:223:13:ArefRTOS_voidFirstStageScheduler	7
+ArefRTOS_SCHEDULER.c:293:13:ArefRTOS_voidSecondStageDispatcher	7
+ArefRTOS_SCHEDULER.c:344:18:ArefRTOS_voidCreateTask	4
+ArefRTOS_SCHEDULER.c:382:18:ArefRTOS_voidInit	2
+ArefRTOS_SCHEDULER.c:407:18:ArefRTOS_voidActivateTask	2
+ArefRTOS_SCHEDULER.c:426:18:ArefRTOS_voidTerminateTask	2
+ArefRTOS_SCHEDULER.c:445:18:ArefRTOS_voidTaskDelay	1
+ArefRTOS_SCHEDULER.c:460:18:ArefRTOS_voidStartScheduler	1
+ArefRTOS_SCHEDULER.c:489:18:ArefRTOS_CreateMutex	2
+ArefRTOS_SCHEDULER.c:521:18:ArefRTOS_AquireMutex	6
+ArefRTOS_SCHEDULER.c:608:18:ArefRTOS_ReleaseMutex	6
+ArefRTOS_SCHEDULER.c:686:6:ArefRTOS_SVC_CALL	4
+ArefRTOS_SCHEDULER.c:756:18:PendSV_Handler	2
+ArefRTOS_SCHEDULER.c:842:6:SysTick_Handler	5

@@ -1,0 +1,4 @@
+../ArefRTOS/src/ArefRTOS_CIRCULARQUEUE.c:20:13:queue_create	16	static
+../ArefRTOS/src/ArefRTOS_CIRCULARQUEUE.c:27:13:queue_add	16	static
+../ArefRTOS/src/ArefRTOS_CIRCULARQUEUE.c:40:13:queue_get	16	static
+../ArefRTOS/src/ArefRTOS_CIRCULARQUEUE.c:51:9:queue_size	16	static
