@@ -103,6 +103,7 @@ The `ArefRTOS_ReleaseMutex` function is a vital component of the ArefRTOS real-t
 8. **Error Handling**:
    - If either the `pMutex` pointer or the `pCurrentRunningTask` pointer is NULL (invalid argument), it sets the local error code to `NULL_ARGs` to indicate an invalid argument error.
 
+---
 
 ### 04. ArefRTOS Send Item to Queue
 
@@ -163,6 +164,7 @@ The `ArefRTOS_ResetQueue` function is used to reset a queue within the ArefRTOS 
 
 In summary, these three functions, `ArefRTOS_voidSendItemToQueue`, `ArefRTOS_RecieveItemFromQueue`, and `ArefRTOS_ResetQueue`, are fundamental for queue management and inter-task communication in the ArefRTOS system. They provide robust error handling to enhance system reliability.
 
+---
 
 ### 07. ArefRTOS Acquire Binary Semaphore
 
@@ -186,8 +188,6 @@ The `ArefRTOS_AcquireBinarySemaphore` function is a fundamental component of the
 
 6. **Error Status Return**: The function returns the error code (`LOC_ArefRTOS_ErrorID`), which will be `NoError` if the semaphore was successfully acquired, or `INVALID_OPERATION` if the semaphore was already acquired or an unexpected condition occurred.
 
----
-
 ### 08. ArefRTOS Release Binary Semaphore
 
 The `ArefRTOS_ReleaseBinarySemaphore` function is a critical part of the ArefRTOS real-time operating system (RTOS) responsible for releasing binary semaphores, allowing other tasks to acquire them.
@@ -209,8 +209,6 @@ The `ArefRTOS_ReleaseBinarySemaphore` function is a critical part of the ArefRTO
    - If neither of the above conditions is met (an unexpected situation), it sets the local error code to `INVALID_OPERATION` as a fallback.
 
 6. **Error Status Return**: The function returns the error code (`LOC_ArefRTOS_ErrorID`), which will be `NoError` if the semaphore was successfully released, or `INVALID_OPERATION` if the semaphore was not acquired or an unexpected condition occurred.
-
----
 
 ### 09. ArefRTOS Get Binary Semaphore State
 
