@@ -1,4 +1,4 @@
-# ArefRTOS - A Self-Made Real-Time Operating System (Version 5.0) 👨‍💻
+# ArefRTOS - A Self-Made Real-Time Operating System (Version 5.1) 👨‍💻
 
 ## Introduction 🌟
 
