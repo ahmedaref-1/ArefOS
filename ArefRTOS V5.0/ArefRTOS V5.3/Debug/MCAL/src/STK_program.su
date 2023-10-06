@@ -1,0 +1,3 @@
+D:/Embedded Systems Labs Solution/STM32Cube IDE Projects/ArefRTOS/CMSIS_Version5/core_cm3.h:1640:22:__NVIC_SetPriority	16	static
+D:/Embedded Systems Labs Solution/STM32Cube IDE Projects/ArefRTOS/CMSIS_Version5/core_cm3.h:1838:26:SysTick_Config	16	static
+../MCAL/src/STK_program.c:22:6:STK_SetPeriodicInterruptInterval	8	static
