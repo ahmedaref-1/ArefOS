@@ -7,7 +7,7 @@ Welcome to the ArefOS project! This repository is your gateway to mastering Real
 ArefOS is a project designed to help you excel in your RTOS course. It provides you with a hands-on experience in building and understanding a Real-Time Operating System. Whether you're a student looking to ace your RTOS course or an enthusiast eager to dive into the world of embedded systems, this project is here to support your learning journey.However, ArefRTOS is implemented for educational and learning purposes so it may exist some faults I didn't handle so you can fork the project and try to add your modification.
 
 ## ArefRTOS Features 🚀
-#  Version 5.0 comes equipped with a range of features designed to facilitate real-time task management and efficient resource allocation. Here's a quick rundown of the key features:
+#  Version 5.0
 
 1. **Basic RTOS Operations**: ArefRTOS supports the fundamental operations required by any real-time operating system, ensuring efficient task management and resource allocation.
 
