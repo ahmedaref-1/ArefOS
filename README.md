@@ -9,7 +9,7 @@ ArefOS is a project designed to help you excel in your RTOS course. It provides 
 ## ArefRTOS Features 🚀
 #  Version 5.0
 
-1. **Basic RTOS Operations**: ArefRTOS supports the fundamental operations required by any real-time operating system, ensuring efficient task management and resource allocation.
+1. ***Basic RTOS Operations***: ArefRTOS supports the fundamental operations required by any real-time operating system, ensuring efficient task management and resource allocation.
 
 2. **Priority-Based Scheduler**: Our scheduler follows a priority-based approach, ensuring that the task with the highest priority is executed first. This ensures that critical tasks are prioritized for execution.
 
