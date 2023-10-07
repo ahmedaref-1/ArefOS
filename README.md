@@ -6,24 +6,25 @@ Welcome to the ArefOS project! This repository is your gateway to mastering Real
 
 ArefOS is a project designed to help you excel in your RTOS course. It provides you with a hands-on experience in building and understanding a Real-Time Operating System. Whether you're a student looking to ace your RTOS course or an enthusiast eager to dive into the world of embedded systems, this project is here to support your learning journey.However, ArefRTOS is implemented for educational and learning purposes so it may exist some faults I didn't handle so you can fork the project and try to add your modification.
 
-## ArefRTOS Features 🚀
-#  Version 5.0
+# ArefRTOS Features 🚀
+## Version 5.0
 
-1. ***Basic RTOS Operations***: ArefRTOS supports the fundamental operations required by any real-time operating system, ensuring efficient task management and resource allocation.
+**1. Basic RTOS Operations**: ArefRTOS supports the fundamental operations required by any real-time operating system, ensuring efficient task management and resource allocation.
 
-2. **Priority-Based Scheduler**: Our scheduler follows a priority-based approach, ensuring that the task with the highest priority is executed first. This ensures that critical tasks are prioritized for execution.
+**2. Priority-Based Scheduler**: Our scheduler follows a priority-based approach, ensuring that the task with the highest priority is executed first. This ensures that critical tasks are prioritized for execution.
 
-3. **Round-Robin Scheduling**: In scenarios where two or more tasks have the same highest priority, ArefRTOS employs a Round-Robin scheduling algorithm to fairly distribute CPU time among these tasks.
+**3. Round-Robin Scheduling**: In scenarios where two or more tasks have the same highest priority, ArefRTOS employs a Round-Robin scheduling algorithm to fairly distribute CPU time among these tasks.
 
-4. **IDLE Task Optimization**: The IDLE task in ArefRTOS has been optimized to enter a low-power sleep mode and await an event when no active tasks are pending, conserving energy and enhancing system responsiveness.
+**4. IDLE Task Optimization**: The IDLE task in ArefRTOS has been optimized to enter a low-power sleep mode and await an event when no active tasks are pending, conserving energy and enhancing system responsiveness.
 
-5. **Queue APIs**: We've implemented a set of Queue APIs that enable seamless data sharing between tasks. These queues facilitate inter-task communication and synchronization.
+**5. Queue APIs**: We've implemented a set of Queue APIs that enable seamless data sharing between tasks. These queues facilitate inter-task communication and synchronization.
 
-6. **Binary Semaphores**: ArefRTOS supports Binary Semaphores as a signaling mechanism. These semaphores help coordinate access to resources and ensure mutual exclusion when needed.
+**6. Binary Semaphores**: ArefRTOS supports Binary Semaphores as a signaling mechanism. These semaphores help coordinate access to resources and ensure mutual exclusion when needed.
 
-7. **Counting Semaphores**: For scenarios where multiple tasks need to access a shared resource, Counting Semaphores are available as a signaling mechanism. These semaphores allow you to control access based on the availability of resources.
+**7. Counting Semaphores**: For scenarios where multiple tasks need to access a shared resource, Counting Semaphores are available as a signaling mechanism. These semaphores allow you to control access based on the availability of resources.
 
-8. **Mutex (Mutual Exclusion)**: ArefRTOS includes support for Mutexes, which serve as a locking mechanism to protect critical sections of code. This ensures that only one task can access a shared resource at a time.
+**8. Mutex (Mutual Exclusion)**: ArefRTOS includes support for Mutexes, which serve as a locking mechanism to protect critical sections of code. This ensures that only one task can access a shared resource at a time.
+
 
 With these features, ArefRTOS version 5.x is well-equipped to handle a wide range of real-time applications, ensuring efficient task management, resource utilization, and responsiveness in your embedded systems.
 
