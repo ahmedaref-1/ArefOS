@@ -31,7 +31,7 @@ With these features, ArefRTOS version 5.x is well-equipped to handle a wide rang
 # Examples from ArefOS:
 ## 01.Round Robin Scheduling:
 The system begins by executing the Idle Task until a SysTick interrupt occurs every 1ms. ArefRTOS Scheduler selects the next task in line, starting with Task1, and allocates it a 1ms time slice. Context switches between tasks are facilitated using PENDSV. The process continues in sequence, with Task2 and Task3, showing the ArefRTOS's smooth concurrency.
-![Video](ArefOS/01. Round Robin Example.mp4)
+
 
 
 ## 02.Preemptive Scheduling:
