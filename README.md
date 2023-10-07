@@ -25,9 +25,20 @@ ArefOS is a project designed to help you excel in your RTOS course. It provides 
 
 **8. Mutex (Mutual Exclusion)**: ArefRTOS includes support for Mutexes, which serve as a locking mechanism to protect critical sections of code. This ensures that only one task can access a shared resource at a time.
 
-
 With these features, ArefRTOS version 5.x is well-equipped to handle a wide range of real-time applications, ensuring efficient task management, resource utilization, and responsiveness in your embedded systems.
 
+
+# Examples from ArefOS:
+## ![01.Round Robin Scheduling]ArefOS
+/01. Round Robin Example.mp4)
+The system begins by executing the Idle Task until a SysTick interrupt occurs every 1ms. ArefRTOS Scheduler selects the next task in line, starting with Task1, and allocates it a 1ms time slice. Context switches between tasks are facilitated using PENDSV. The process continues in sequence, with Task2 and Task3, showing the ArefRTOS's smooth concurrency.
+
+
+## 02.Preemptive Scheduling:
+Preemptive scheduling is showcased with four tasks prioritized from highest (Task4) to lowest (Task1). Task1 is initially active but is preempted by Task2 due to its higher priority. This preemption chain continues as Task2 activates Task3, and Task3 activates Task4. After Task4 completes, the scheduler returns to Task3, then Task2, and finally Task1, demonstrating ArefRTOS's seamless operation.
+
+## 03.Mutex and Priority Inheritance:
+Four tasks with descending priority participate. Task1 requests Mutex one and activates Task2. Task2, with higher priority, takes precedence. When Task4 requests Mutex one, currently held by Task1, priority inversion occurs, and Task1 inherits Task4's priority. Task1 resumes when Mutex one is released, and priorities are restored. This example illustrates Mutex usage, priority inversion, and the priority inheritance technique in ArefRTOS.
 
 ## Getting Started 🛠️
 
