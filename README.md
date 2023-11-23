@@ -1,4 +1,4 @@
-# ArefOS - A Self-Made Real-Time Operating System👨‍💻
+# ArefOS - A Self-Made Real-Time Operating System 👨‍💻
 
 Welcome to the ArefOS project! This repository is your gateway to mastering Real-Time Operating Systems (RTOS) through a self-made RTOS.
 
